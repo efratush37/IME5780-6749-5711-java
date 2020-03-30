@@ -7,8 +7,6 @@
  * Email: Zizovirivka@gmail.com
  */
 
-package javaEx0;
-
 import primitives.*;
 import static java.lang.System.out;
 import static primitives.Util.*;
