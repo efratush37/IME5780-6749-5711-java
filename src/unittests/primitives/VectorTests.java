@@ -4,6 +4,7 @@ import org.junit.Test;
 import primitives.Vector;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class VectorTests {
 
@@ -44,7 +45,7 @@ public class VectorTests {
     public void dotProduct() {
         Vector v1 = new Vector(6, 8, 0);
         Vector v2 = new Vector(-2, -4, -6);
-        double x= 6*(-2)+8*(-4);
+        double x = 6 * (-2) + 8 * (-4);
         assertEquals("the dot product is:", x, v1.dotProduct(v2), 0);
     }
 
@@ -59,14 +60,14 @@ public class VectorTests {
     public void normalize() {
         Vector v1 = new Vector(6, 8, 1);
         double length = Math.sqrt(101);
-        assertEquals("the normal vector is:", new Vector(6/length, 8/length, 1/length), v1.normalize());
+        assertEquals("the normal vector is:", new Vector(6 / length, 8 / length, 1 / length), v1.normalize());
     }
 
     @Test
     public void normalized() {
         Vector v1 = new Vector(6, 8, 1);
         double length = Math.sqrt(101);
-        assertEquals("the normalized vector is:", new Vector(6/length, 8/length, 1/length), v1.normalize());
+        assertEquals("the normalized vector is:", new Vector(6 / length, 8 / length, 1 / length), v1.normalize());
     }
 
 
