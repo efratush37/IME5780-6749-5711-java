@@ -10,6 +10,7 @@ import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Vector class
+ *
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class VectorTests {
@@ -25,14 +26,12 @@ public class VectorTests {
         assertEquals("the subtract of the vectors is:", new Vector(3, 6, 9), v1.subtract(v2));
         // =============== Boundary Values Tests ==================
         try {
-            Vector v3=new Vector(1,1,1);
-            Vector v4=new Vector(1,1,1);
+            Vector v3 = new Vector(1, 1, 1);
+            Vector v4 = new Vector(1, 1, 1);
             v3.subtract(v4);
             fail("Vector (0,0,0) should'nt be valid");
-        }
-        catch  (IllegalArgumentException e)
-        {
-            assertTrue(e.getMessage()!= null);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage() != null);
         }
     }
 
@@ -48,14 +47,12 @@ public class VectorTests {
         assertEquals("the add of the vectors is:", new Vector(-1, -2, -3), v1.add(v2));
         // =============== Boundary Values Tests ==================
         try {
-            Vector v3=new Vector(-1,-1,-1);
-            Vector v4=new Vector(1,1,1);
+            Vector v3 = new Vector(-1, -1, -1);
+            Vector v4 = new Vector(1, 1, 1);
             v3.add(v4);
             fail("Vector (0,0,0) shouldnt be valid");
-        }
-        catch  (IllegalArgumentException e)
-        {
-            assertTrue(e.getMessage()!= null);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage() != null);
         }
     }
 
@@ -74,10 +71,9 @@ public class VectorTests {
 
             v1.scale(0);
             fail("Vector (0,0,0) not valid");
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage() != null);
         }
-        catch  (IllegalArgumentException e)
-        {
-            assertTrue(e.getMessage()!= null); }
 
     }
 
@@ -143,7 +139,8 @@ public class VectorTests {
         try {
             v1.crossProduct(v2);
             fail("crossProduct() for parallel vectors does not throw an exception");
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     /**
