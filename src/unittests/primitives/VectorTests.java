@@ -10,7 +10,7 @@ import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Vector class
- * @author Rivka Zizovi 207265711 & Efrat Ankonina 322796749
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class VectorTests {
     /**

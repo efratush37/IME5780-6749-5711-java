@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for Geometries.Tube class
- * @authorRivka Zizovi 207265711 & Efrat Ankonina 322796749
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class TubeTests {
 

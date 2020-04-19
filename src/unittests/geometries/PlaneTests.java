@@ -9,7 +9,7 @@ import primitives.Vector;
 import static org.junit.Assert.*;
 /**
  * Unit tests for Geometries.Plane class
- * @author Rivka Zizovi 207265711 & Efrat Ankonina 322796749
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class PlaneTests {
 
@@ -26,6 +26,6 @@ public class PlaneTests {
         Plane pl2 = new Plane(new Point3D(1, 0, 0), new Point3D(0, 0, 1), new Point3D(0, 1, 0));
         Vector v3 = pl2.getNormal();
 
-        assertEquals("KUKU",v1, v3);
+        assertEquals("the normal of the plane is:",v1, v3);
     }
 }
