@@ -20,7 +20,7 @@ public class Plane implements Geometry {
         Vector v2 = _p1.subtract(_p3);
         Vector normal = v1.crossProduct(v2).normalize();
         this._p = new Point3D(_p1);
-        this._normal = normal.scale(-1);
+        this._normal = normal.scale(1);
     }
 
     /**
@@ -66,7 +66,7 @@ public class Plane implements Geometry {
      * @return the normal of the plane
      */
     public Vector getNormal() {
-        return new Vector(_normal);
+        return _normal.normalize();
     }
 
     /**
@@ -76,7 +76,7 @@ public class Plane implements Geometry {
      */
     @Override
     public Vector getNormal(Point3D p) {
-        return null;
+        return _normal;
     }
 
 

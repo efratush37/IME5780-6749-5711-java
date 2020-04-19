@@ -6,19 +6,22 @@ import primitives.Vector;
 
 import java.util.Objects;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 public class Cylinder extends Tube {
     //field
     private double _height;
 
     /**
      * constructor with three arguments
-     * @param h= high of the cylinder
-     * @param r= ray of the cylinder
-     * @param radius= radius of the cylinder
+     * @param _height= high of the cylinder
+     * @param _axisRay= ray of the cylinder
+     * @param _radius= radius of the cylinder
      */
-    public Cylinder(double h, Ray r, double radius) {
-        super(r, radius);
-        _height = h;
+    public Cylinder(double _radius, Ray _axisRay, double _height) {
+        super(_radius, _axisRay);
+        this._height = _height;
     }
 
     /**
@@ -29,23 +32,6 @@ public class Cylinder extends Tube {
         return _height;
     }
 
-    /**
-     * get method for the ray field
-     * @return the value of the ray field
-     */
-    @Override
-    public Ray get_axisRay() {
-        return super.get_axisRay();
-    }
-
-    /**
-     * get method for the radius field
-     * @return the value of the radius field
-     */
-    @Override
-    public double get_radius() {
-        return super.get_radius();
-    }
 
     /**
      * implement to string method
@@ -60,11 +46,27 @@ public class Cylinder extends Tube {
 
     /**
      * returns the normal to the cylinder
-     * @param p= the point
+     * @param point= the point
      * @return= the normal to the cylinder
      */
     @Override
-    public Vector getNormal(Point3D p) {
-        return super.getNormal(p);
+    public Vector getNormal(Point3D point) {
+        Point3D o = get_axisRay().get_p0();
+        Vector v = get_axisRay().getDir();
+
+        // projection of P-O on the ray:
+        double t;
+        try {
+            t = alignZero(point.subtract(o).dotProduct(v));
+        } catch (IllegalArgumentException e) { // P = O
+            return v;
+        }
+
+        // if the point is at a base
+        if (t == 0 || isZero(_height - t)) // if it's close to 0, we'll get ZERO vector exception
+            return v;
+
+        o = o.add(v.scale(t));
+        return point.subtract(o).normalize();
     }
 }

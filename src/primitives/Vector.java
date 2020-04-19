@@ -1,7 +1,6 @@
 package primitives;
 
 import java.util.Objects;
-
 public class Vector {
     //field
     private Point3D head;
@@ -72,7 +71,7 @@ public class Vector {
      * check if its the zero point
      * @param p = point to check
      */
-    private static void isZero(Point3D p){
+    public static void isZero(Point3D p){
         if (p.equals(Point3D.getZERO())) {
             throw new IllegalArgumentException("can not set zero vector");
         }
@@ -167,11 +166,10 @@ public class Vector {
      * @return the vector after normalize
      */
     public Vector normalize() {
-        double l = this.length();
-        double c1 = this.getHead().getC1().get() / l;
-        double c2 = this.getHead().getC2().get() / l;
-        double c3 = this.getHead().getC3().get() / l;
-        this.head=new Point3D(c1,c2,c3);
+        double size = length();
+        this.head = new Point3D(this.getHead().getC1().get() / size,
+                this.head.getC2().get() / size,
+                this.head.getC3().get() / size);
         return this;
     }
 

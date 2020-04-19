@@ -31,13 +31,8 @@ public abstract class RadialGeometry implements Geometry {
         return _radius;
     }
 
-    /**
-     * returns the normal to the radial geometry
-     * @param p= point of the object
-     * @return the normal to the radial geometry
-     */
     @Override
-    public Vector getNormal(Point3D p) {
-        return null;
+    public String toString() {
+        return "radius = " + _radius;
     }
 }

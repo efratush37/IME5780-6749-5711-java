@@ -4,18 +4,20 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 public class Tube extends RadialGeometry {
     //field
     private Ray _axisRay;
 
     /**
      * constructor with two arguments
-     * @param r= ray of the tube
-     * @param radius= radius of the tube
+     * @param _axisRay= ray of the tube
+     * @param _radius= radius of the tube
      */
-    public Tube(Ray r, double radius) {
-        super(radius);
-        _axisRay = r;
+    public Tube(double _radius, Ray _axisRay) {
+        super(_radius);
+        this._axisRay = new Ray(_axisRay);
     }
 
     /**
@@ -53,6 +55,19 @@ public class Tube extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point3D p) {
-        return super.getNormal(p);
+        Point3D o = _axisRay.get_p0();
+        Vector v = _axisRay.getDir();
+        Vector vector1 = p.subtract(o);
+
+        //We need the projection to multiply the _direction unit vector
+        double projection = vector1.dotProduct(v);
+        if(!isZero(projection))
+        {
+            // projection of P-O on the ray:
+            o = o.add(v.scale(projection));
+        }
+        //This vector is orthogonal to the _direction vector.
+        Vector check = p.subtract(o);
+        return check.normalize();
     }
 }

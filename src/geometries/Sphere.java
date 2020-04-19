@@ -9,13 +9,13 @@ public class Sphere extends RadialGeometry {
 
     /**
      * constructor with two arguments
-     * @param center= the center point of the sphere
-     * @param radius= the radius of the sphere
+     * @param _center= the center point of the sphere
+     * @param _radius= the radius of the sphere
      */
-   Sphere(Point3D center,double radius){
-       super(radius);
-       _center=center;
-   }
+    public Sphere(double _radius, Point3D _center) {
+        super(_radius);
+        this._center = _center;
+    }
 
     /**
      * get method for the radius field
@@ -52,6 +52,6 @@ public class Sphere extends RadialGeometry {
      */
     @Override
     public Vector getNormal(Point3D p) {
-        return super.getNormal(p);
+        return (p.subtract(_center)).normalize();
     }
 }

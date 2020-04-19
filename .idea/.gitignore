@@ -2,3 +2,4 @@
 /workspace.xml
 *.xml
 *.html
+../out/
