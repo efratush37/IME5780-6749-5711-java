@@ -40,10 +40,10 @@ public class Vector {
 
     /**
      * copy constructor
-     * @param v= an existing vector
+     * @param v an existing vector
      */
     public Vector(Vector v) {
-        this.head = v.head;
+        head = new Point3D(v.head);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Vector {
 
     /** for our comfortable
      * check if its the zero point
-     * @param p = point to check
+     * @param p point to check
      */
     public static void isZero(Point3D p){
         if (p.equals(Point3D.getZERO())) {
@@ -133,8 +133,7 @@ public class Vector {
      * @return the length
      */
     public double length() {
-        double len = this.lengthSquared();
-        return Math.sqrt(len);
+        return Math.sqrt(lengthSquared());
     }
 
     /**
@@ -156,7 +155,7 @@ public class Vector {
      */
     public Vector crossProduct(Vector v) {
         double x = (this.head.getC2().get() * v.head.getC3().get()) - (this.head.getC3().get() * v.head.getC2().get());
-        double y = -((this.head.getC1().get() * v.head.getC3().get()) - (this.head.getC3().get() * v.head.getC1().get()));
+        double y = -((this.head.getC3().get() * v.head.getC1().get()) - (this.head.getC1().get() * v.head.getC3().get()));
         double z = (this.head.getC1().get() * v.head.getC2().get()) - (this.head.getC2().get() * v.head.getC1().get());
         return new Vector(x, y, z);
     }

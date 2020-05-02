@@ -4,6 +4,8 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static primitives.Util.isZero;
 
 public class Tube extends RadialGeometry {
@@ -69,5 +71,10 @@ public class Tube extends RadialGeometry {
         //This vector is orthogonal to the _direction vector.
         Vector check = p.subtract(o);
         return check.normalize();
+    }
+
+    @Override
+    public List<Point3D> findIntsersections(Ray ray) {
+        return null;
     }
 }

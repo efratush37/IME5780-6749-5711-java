@@ -2,7 +2,13 @@ package geometries;
 
 
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
+
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 public class Plane implements Geometry {
     //fields
@@ -11,6 +17,7 @@ public class Plane implements Geometry {
 
     /**
      * constructor with three arguments
+     *
      * @param _p1= point
      * @param _p2= point
      * @param _p3= point
@@ -25,7 +32,8 @@ public class Plane implements Geometry {
 
     /**
      * constructor with two arguments
-     * @param p= point
+     *
+     * @param p=      point
      * @param normal= normal of the object
      */
     public Plane(Point3D p, Vector normal) {
@@ -35,6 +43,7 @@ public class Plane implements Geometry {
 
     /**
      * get method for the point field
+     *
      * @return the value of the point field
      */
     public Point3D get_p() {
@@ -43,7 +52,8 @@ public class Plane implements Geometry {
 
     /**
      * get method for the normal field
-     * @return  the value of the normal field
+     *
+     * @return the value of the normal field
      */
     public Vector get_normal() {
         return _normal;
@@ -51,6 +61,7 @@ public class Plane implements Geometry {
 
     /**
      * implement to string method
+     *
      * @return string describes the object
      */
     @Override
@@ -63,6 +74,7 @@ public class Plane implements Geometry {
 
     /**
      * this function returns the normal
+     *
      * @return the normal of the plane
      */
     public Vector getNormal() {
@@ -71,6 +83,7 @@ public class Plane implements Geometry {
 
     /**
      * returns the normal to the cylinder
+     *
      * @param p= point of the object
      * @return the normal to the plane
      */
@@ -80,4 +93,28 @@ public class Plane implements Geometry {
     }
 
 
+    @Override
+    public List<Point3D> findIntsersections(Ray ray) {
+        //P = P0 + T*V, T >= 0
+        // N * Q0 - P = 0
+
+
+        // vector from p0 of ray to point on the plane
+        Vector p0Q;
+        try {
+            p0Q = _p.subtract(ray.get_p0());
+        } catch (IllegalArgumentException e) {
+            return null; // ray starts from point Q - no intersections
+        }
+        // t =
+        //N * (Q0 - P0) / (n * v)
+        double nv = _normal.dotProduct(ray.getDir());
+        // if ray is parallel to the plane - no intersections
+        if (isZero(nv))
+            return null;
+
+        double t = alignZero(_normal.dotProduct(p0Q) / nv);
+
+        return t <= 0 ? null : List.of(ray.getPoint(t));
+    }
 }

@@ -23,10 +23,15 @@ public class CylinderTests {
         // TC01: There is a simple single test here
         Vector v=new Vector(4, 4, 4);
         Point3D p=  new Point3D(1, 1, 1);
-        Ray r = new Ray(v,p);
+        Ray r = new Ray(p, v);
         Cylinder c=new Cylinder(1, r, 2);
         Point3D p1 = new Point3D(2, 3, 4);
         Vector V = new Vector(-95, -94, -93).normalize();
         assertEquals("the normal of the cylinder is:",V, c.getNormal(p1));
+    }
+
+    @Test
+    public void findIntsersections() {
+
     }
 }

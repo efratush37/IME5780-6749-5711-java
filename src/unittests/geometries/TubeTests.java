@@ -23,10 +23,14 @@ public class TubeTests {
         // TC01: There is a simple single test here
         Vector v=new Vector(4, 4, 4);
         Point3D p=  new Point3D(1, 1, 1);
-        Ray r = new Ray(v,p);
+        Ray r = new Ray(p, v);
         Point3D p1 = new Point3D(2, 3, 4);
         Vector V = new Vector(-95, -94, -93).normalize();
         Tube t = new Tube(2, r);
         assertEquals("the normal of the tube is:",new Vector(V), t.getNormal(p1));
+    }
+
+    @Test
+    public void findIntsersections() {
     }
 }

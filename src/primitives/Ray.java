@@ -2,6 +2,8 @@ package primitives;
 
 import java.util.Objects;
 
+import static primitives.Util.isZero;
+
 public class Ray {
     //fields
     private Vector dir;
@@ -12,7 +14,7 @@ public class Ray {
      * @param direction= the vector of the ray
      * @param p= point to the ray
      */
-    public Ray(Vector direction, Point3D p) {
+    public Ray(Point3D p, Vector direction) {
 /*        dir.normalize();*/
         dir = direction;
         _p0 = p;
@@ -67,5 +69,9 @@ public class Ray {
                 "dir=" + dir +
                 ", _p0=" + _p0 +
                 '}';
+    }
+
+    public Point3D getPoint(double t) {
+        return isZero(t) ? _p0 : _p0.add(dir.scale(t));
     }
 }
