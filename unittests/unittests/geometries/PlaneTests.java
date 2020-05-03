@@ -75,7 +75,7 @@ public class PlaneTests {
         assertEquals("the ray doesn't orthogonal to the plane", 0, v.dotProduct(r21.getDir().normalize()), 0);
         assertEquals("the ray doesn't orthogonal to the plane", 1, (plane.findIntsersections(r21)).size());
         List<Point3D> result22 = plane.findIntsersections(r21);
-        Point3D point21= new Point3D(0, 0, 0);
+        Point3D point21 = new Point3D(0, 0, 0);
         assertEquals("Orthogonal-before", List.of(point21), result22);
 
         // TC22: p0 in the plane
@@ -84,20 +84,19 @@ public class PlaneTests {
         assertNull("Orthogonal-in", plane.findIntsersections(r22));
 
         // TC23: p0 after the plane
-        Ray r23=new Ray(new Point3D(0,-1,0), new Vector(0,-2,0));
+        Ray r23 = new Ray(new Point3D(0, -1, 0), new Vector(0, -2, 0));
         assertEquals("the ray doesn't orthogonal to the plane", 0, v.dotProduct(r23.getDir().normalize()), 0);
         assertNull("Orthogonal-after", plane.findIntsersections(r23));
 
         // **** Group: Ray is neither orthogonal nor parallel to the plane
 
         // TC31: Ray begins at the plane
-        Ray r31=new Ray(new Point3D(0,0,0), new Vector(4,-2,3));
+        Ray r31 = new Ray(new Point3D(0, 0, 0), new Vector(4, -2, 3));
         assertNull("in, and not parallel or orthogonal, start on p0", plane.findIntsersections(r31));
 
         // TC32: Ray begins in the same point which appears as reference point in the plane
-        Ray r32=new Ray(new Point3D(1,0,0), new Vector(4,-2,3));
+        Ray r32 = new Ray(new Point3D(1, 0, 0), new Vector(4, -2, 3));
         assertNull("in,  and not parallel or orthogonal, start on reference point", plane.findIntsersections(r32));
-
 
 
     }
