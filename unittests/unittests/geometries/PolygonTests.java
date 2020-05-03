@@ -10,6 +10,8 @@ import org.junit.Test;
 import geometries.*;
 import primitives.*;
 
+import java.util.List;
+
 /**
  * Testing Polygons
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
@@ -94,5 +96,35 @@ public class PolygonTests {
 
     @Test
     public void findIntsersections() {
+        Polygon p = new Polygon(new Point3D(4.0, 4.0, 0.0), new Point3D(4.0, 4.0, 4.0), new Point3D(-4.0, 4.0, 4.0), new Point3D(-4.0, 4.0, 0.0));
+        Point3D point;
+        // ============ Equivalence Partitions Tests ==============
+
+        //TC01 - ray intersects with polygon
+        List<Point3D> result = p.findIntsersections(new Ray(new Point3D(1.0, -5.0, 3.0), new Vector(0.0, 3.0, 0.0)));
+        point = new Point3D(1.0, 4.0, 3.0);
+        assertEquals("ray not intersect", List.of(point), result);
+
+        //TC02- ray intersects with plane but outside the polygon against edge
+        result = p.findIntsersections(new Ray(new Point3D(6.0, -1.0, 0.0), new Vector(0.0, 3.0, 0.0)));
+        assertNull("ray intersect", result);
+
+        //TC03- ray intersects with plane but outside the polygon against vertex
+        result = p.findIntsersections(new Ray(new Point3D(5.0, 4.0, 4.0), new Vector(0.0, 3.0, 0.0)));
+        assertNull("Ray intersect", result);
+
+        // =============== Boundary Values Tests ==================
+
+        //TC04- the ray begins before the plane on the edge of polygon
+        result = p.findIntsersections(new Ray(new Point3D(4.0, 3.0, 0.0), new Vector(0.0, 1.0, 0.0)));
+        assertNull("ray intersect", result);
+
+        //TC05- the ray begins before the plane on vertex
+        result = p.findIntsersections(new Ray(new Point3D(4.0, 3.0, 4.0), new Vector(0.0, 1.0, 0.0)));
+        assertNull("ray intersect", result);
+
+        //TC06- the ray begins before the plane on edge's continuation
+        result = p.findIntsersections( new Ray(new Point3D(8.0, 2.0, 0.0), new Vector(0.0, 1.0, 0.0)));
+        assertNull("ray intersect", result);
     }
 }

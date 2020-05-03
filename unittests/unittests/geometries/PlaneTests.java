@@ -36,6 +36,7 @@ public class PlaneTests {
         assertEquals("the normal of the plane is:", v1, v3);
     }
 
+
     @Test
     public void findIntsersections() {
         Plane plane = new Plane(new Point3D(1, 0, 0), new Point3D(0, 0, 0), new Point3D(0, 0, 1));
@@ -69,7 +70,7 @@ public class PlaneTests {
         // **** Group: Ray is orthogonal to the plane
         Vector v = new Vector(2, 0, 2);
 
-        // TC21: 𝑃0 before the plane
+        // TC21: p0 before the plane
         Ray r21 = new Ray(new Point3D(0, 1, 0), new Vector(0, -2, 0));
         assertEquals("the ray doesn't orthogonal to the plane", 0, v.dotProduct(r21.getDir().normalize()), 0);
         assertEquals("the ray doesn't orthogonal to the plane", 1, (plane.findIntsersections(r21)).size());
@@ -77,7 +78,7 @@ public class PlaneTests {
         Point3D point21= new Point3D(0, 0, 0);
         assertEquals("Orthogonal-before", List.of(point21), result22);
 
-        // TC22: 𝑃0 in the plane
+        // TC22: p0 in the plane
         Ray r22 = new Ray(new Point3D(0, 0, 0), new Vector(0, -2, 0));
         assertEquals("the ray doesn't orthogonal to the plane", 0, v.dotProduct(r22.getDir().normalize()), 0);
         assertNull("Orthogonal-in", plane.findIntsersections(r22));

@@ -21,13 +21,12 @@ public class CylinderTests {
     public void getNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here
-        Vector v=new Vector(4, 4, 4);
-        Point3D p=  new Point3D(1, 1, 1);
-        Ray r = new Ray(p, v);
-        Cylinder c=new Cylinder(1, r, 2);
-        Point3D p1 = new Point3D(2, 3, 4);
-        Vector V = new Vector(-95, -94, -93).normalize();
-        assertEquals("the normal of the cylinder is:",V, c.getNormal(p1));
+        Ray ray = new Ray(new Point3D(1, 2, 3), new Vector(1, 0, 2));
+        Cylinder cylinder = new Cylinder(2, ray, 4);
+
+        assertEquals(new Vector(-4, 0, 2).scale(1d / Math.sqrt(20)), cylinder.getNormal(new Point3D(0, 2, 11)));
+
+        assertEquals(ray.getDir(), cylinder.getNormal(ray.get_p0().add(new Vector(-2, 0, 1).normalized().scale(1.5d))));
     }
 
     @Test

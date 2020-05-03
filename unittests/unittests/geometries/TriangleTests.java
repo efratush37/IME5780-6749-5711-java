@@ -62,14 +62,15 @@ public class TriangleTests {
         // **** Group: the ray begins "before" the plane
 
         // TC11: On edge
-        Ray r11=new Ray(new Point3D(-1,-1,0), new Vector(2,2,2));
-        List<Point3D> result11 = t.findIntsersections(r11);
-        Point3D p11 = new Point3D(1, 0, 0);
-        assertEquals("Ray intersect the triangle on the edge", List.of(p11), result11);
+        Ray r11=new Ray(new Point3D(-1,-1,1), new Vector(2,2,2));
+        assertNull("Ray intersect the triangle on the edge", t.findIntsersections(r11));
 
-        // TC11: In vertex
+        // TC12: In vertex
+        Ray r12=new Ray(new Point3D(-1,-1,3), new Vector(2,2,0));
+        assertNull("Ray intersect the triangle in vertex", t.findIntsersections(r12));
 
-        // TC11: On edge's continuation
-
+        // TC13: On edge's continuation
+        Ray r13=new Ray(new Point3D(-1,-1,5), new Vector(2,2,-2));
+        assertNull("Ray intersect the triangle On edge's continuation", t.findIntsersections(r13));
     }
 }

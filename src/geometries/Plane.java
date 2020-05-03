@@ -33,12 +33,12 @@ public class Plane implements Geometry {
     /**
      * constructor with two arguments
      *
-     * @param p=      point
-     * @param normal= normal of the object
+     * @param _p      point
+     * @param _normal normal of the object
      */
-    public Plane(Point3D p, Vector normal) {
-        _p = p;
-        _normal = normal;
+    public Plane(Point3D _p, Vector _normal) {
+        this._p = new Point3D(_p);
+        this._normal = new Vector(_normal).normalize();
     }
 
     /**
@@ -89,10 +89,16 @@ public class Plane implements Geometry {
      */
     @Override
     public Vector getNormal(Point3D p) {
-        return _normal;
+        return _normal.normalize();
     }
 
 
+    /**
+     * this function calculate the intersections points
+     *
+     * @param ray= the ray thrown toward the geometry
+     * @return list of point created by the intersection between the ray and the geometry
+     */
     @Override
     public List<Point3D> findIntsersections(Ray ray) {
         //P = P0 + T*V, T >= 0

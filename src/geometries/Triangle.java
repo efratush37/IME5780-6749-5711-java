@@ -13,11 +13,23 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+    /**
+     * to string method
+     * @return description of an object
+     */
     @Override
     public String toString() {
-        return super.toString();
+        return "Triangle{\n" +
+                "vertices = " + _vertices +
+                "\nplane = " + _plane +
+                '}';
     }
 
+    /**
+     * this function calculate the intersections points
+     * @param ray= the ray thrown toward the geometry
+     * @return list of point created by the intersection between the ray and the geometry
+     */
     @Override
     public List<Point3D> findIntsersections(Ray ray) {
         List<Point3D> intersections = _plane.findIntsersections(ray);

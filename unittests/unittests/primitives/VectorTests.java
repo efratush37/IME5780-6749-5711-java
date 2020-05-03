@@ -117,27 +117,25 @@ public class VectorTests {
      */
     @Test
     public void testCrossProduct() {
-        // ============ Equivalence Partitions Tests ==============
-        // TC01: There is a simple single test here
         Vector v1 = new Vector(1, 2, 3);
-        Vector v2 = new Vector(-2, -4, -6);
 
         // ============ Equivalence Partitions Tests ==============
-        Vector v3 = new Vector(0, 3, -2);
-        Vector vr = v1.crossProduct(v3);
+        Vector v2 = new Vector(0, 3, -2);
+        Vector vr = v1.crossProduct(v2);
 
-        // Test that length of cross-product is proper (orthogonal vectors taken for simplicity)
-        assertEquals("crossProduct() wrong result length", v1.length() * v3.length(), vr.length(), 0.00001);
+        // TC01: Test that length of cross-product is proper (orthogonal vectors taken
+        // for simplicity)
+        assertEquals("crossProduct() wrong result length", v1.length() * v2.length(), vr.length(), 0.00001);
 
-        // Test cross-product result orthogonality to its operands
-
+        // TC02: Test cross-product result orthogonality to its operands
         assertTrue("crossProduct() result is not orthogonal to 1st operand", isZero(vr.dotProduct(v1)));
-        assertTrue("crossProduct() result is not orthogonal to 2nd operand", isZero(vr.dotProduct(v3)));
+        assertTrue("crossProduct() result is not orthogonal to 2nd operand", isZero(vr.dotProduct(v2)));
 
         // =============== Boundary Values Tests ==================
-        // test zero vector from cross-product of co-lined vectors
+        // TC11: test zero vector from cross-productof co-lined vectors
+        Vector v3 = new Vector(-2, -4, -6);
         try {
-            v1.crossProduct(v2);
+            v1.crossProduct(v3);
             fail("crossProduct() for parallel vectors does not throw an exception");
         } catch (Exception e) {
         }

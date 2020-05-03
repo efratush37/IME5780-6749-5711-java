@@ -13,6 +13,7 @@ public class Point3D {
 
     /**
      * constructor with three arguments
+     *
      * @param _c1= coordinate
      * @param _c2= coordinate
      * @param _c3= coordinate
@@ -25,6 +26,7 @@ public class Point3D {
 
     /**
      * constructor with three arguments
+     *
      * @param d1= double value
      * @param d2= double value
      * @param d3= double value
@@ -35,6 +37,7 @@ public class Point3D {
 
     /**
      * copy constructor
+     *
      * @param p= an existing point
      */
     public Point3D(Point3D p) {
@@ -45,6 +48,7 @@ public class Point3D {
 
     /**
      * get method for the coordinate c1 field
+     *
      * @return the value of the coordinate c1 field
      */
     public Coordinate getC1() {
@@ -53,6 +57,7 @@ public class Point3D {
 
     /**
      * get method for the coordinate c2 field
+     *
      * @return the value of the coordinate c2 field
      */
     public Coordinate getC2() {
@@ -61,6 +66,7 @@ public class Point3D {
 
     /**
      * get method for the coordinate c3 field
+     *
      * @return the value of the coordinate c3 field
      */
     public Coordinate getC3() {
@@ -69,6 +75,7 @@ public class Point3D {
 
     /**
      * get method for the zero field
+     *
      * @return the value of the zero field
      */
     public static Point3D getZERO() {
@@ -77,6 +84,7 @@ public class Point3D {
 
     /**
      * implements addition of a vector to a point
+     *
      * @param vector= vector we want to add
      * @return the result of the addition as a new point
      */
@@ -90,43 +98,43 @@ public class Point3D {
 
     /**
      * implements subtraction two points
+     *
      * @param p= point we want to sub
      * @return the result of the subtraction as a vector
      */
     public Vector subtract(Point3D p) {
-        return new Vector(new Point3D(this.c1.get() - p.c1.get(), this.c2.get() - p.c2.get(), this.c3.get() - p.c3.get()));
+        return new Vector(new Point3D(
+                this.c1.get() - p.c1.get(),
+                this.c2.get() - p.c2.get(),
+                this.c3.get() - p.c3.get()));
     }
 
     /**
      * this function calculates the distance squared between two points
+     *
      * @param p1= point
-     * @param p2= second point
      * @return the distance squared
      */
-    public double distanceSquared(Point3D p1, Point3D p2) {
-
-        return ((p1.c1.get() - p2.c1.get()) * (p1.c1.get() - p2.c1.get()) +
-                (p1.c2.get() - p2.c2.get()) * (p1.c2.get() - p2.c2.get()) +
-                (p1.c3.get() - p2.c3.get()) * (p1.c3.get() - p2.c3.get())
-        );
+    public double distanceSquared(Point3D p1) {
+        return ((p1.c1.get() - this.c1.get()) * (p1.c1.get() - this.c1.get()) +
+                (p1.c2.get() - this.c2.get()) * (p1.c2.get() - this.c2.get()) +
+                (p1.c3.get() - this.c3.get()) * (p1.c3.get() - this.c3.get()));
     }
 
     /**
      * this function calculates the distance between two points
+     *
      * @param p1= point
-     * @param p2= second point
      * @return the distance
      */
-    public double distance(Point3D p1, Point3D p2) {
-//        double xyz = this.distanceSquared(p);
-//        double dis = Math.sqrt(xyz);
-//        return dis;
-        return Math.sqrt(distanceSquared(p1, p2));
+    public double distance(Point3D p1) {
+        return Math.sqrt(distanceSquared(p1));
     }
 
     /**
      * implement equal method(comparing)
-     * @param o
+     *
+     * @param o Object
      * @return true or false value regarding their equality
      */
     @Override
@@ -141,6 +149,7 @@ public class Point3D {
 
     /**
      * implement to string method
+     *
      * @return string describes the object
      */
     @Override

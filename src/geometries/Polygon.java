@@ -1,7 +1,9 @@
 package geometries;
 
 import java.util.List;
+
 import primitives.*;
+
 import static primitives.Util.*;
 
 /**
@@ -80,13 +82,47 @@ public class Polygon implements Geometry {
         }
     }
 
+    /**
+     * this function returns the normal of the geometry
+     *
+     * @param point point
+     * @return the normal to the polygon
+     */
     @Override
     public Vector getNormal(Point3D point) {
         return _plane.getNormal();
     }
 
+    /**
+     * this function calculate the intersections points
+     *
+     * @param ray= the ray thrown toward the geometry
+     * @return list of point created by the intersection between the ray and the geometry
+     */
     @Override
     public List<Point3D> findIntsersections(Ray ray) {
-        return null;
+        List<Point3D> intersections = _plane.findIntsersections(ray);
+        if (intersections == null) return null;
+
+        Point3D p0 = ray.get_p0();
+        Vector v = ray.getDir();
+
+        Vector v1 = _vertices.get(1).subtract(p0);
+        Vector v2 = _vertices.get(0).subtract(p0);
+        double sign = v.dotProduct(v1.crossProduct(v2));
+        if (isZero(sign))
+            return null;
+
+        boolean positive = sign > 0;
+
+        for (int i = _vertices.size() - 1; i > 0; --i) {
+            v1 = v2;
+            v2 = _vertices.get(i).subtract(p0);
+            sign = alignZero(v.dotProduct(v1.crossProduct(v2)));
+            if (isZero(sign)) return null;
+            if (positive != (sign > 0)) return null;
+        }
+
+        return intersections;
     }
 }

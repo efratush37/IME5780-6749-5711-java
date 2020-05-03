@@ -11,13 +11,12 @@ public class Ray {
 
     /**
      * constructor with two arguments
-     * @param direction= the vector of the ray
-     * @param p= point to the ray
+     * @param dir  the vector of the ray
+     * @param _p0 point to the ray
      */
-    public Ray(Point3D p, Vector direction) {
-/*        dir.normalize();*/
-        dir = direction;
-        _p0 = p;
+    public Ray(Point3D _p0, Vector dir) {
+        this._p0 = new Point3D(_p0);
+        this.dir = new Vector(dir.normalize());
     }
 
     /**
@@ -25,8 +24,8 @@ public class Ray {
      * @param r= an existing ray
      */
     public Ray(Ray r) {
-        this.dir = r.dir;
-        this._p0 = r._p0;
+        this._p0 = new Point3D(r._p0);
+        this.dir = new Vector(r.dir);
     }
 
     /**
@@ -47,7 +46,7 @@ public class Ray {
 
     /**
      * implement equal method(comparing)
-     * @param o
+     * @param o Object
      * @return true or false value regarding their equality
      */
     @Override
@@ -71,6 +70,11 @@ public class Ray {
                 '}';
     }
 
+    /**
+     * refactoring for calculating the value of a point on a ray
+     * @param t= parameter who means the value of scalar
+     * @return new point after the addition of the scalar multiplication
+     */
     public Point3D getPoint(double t) {
         return isZero(t) ? _p0 : _p0.add(dir.scale(t));
     }

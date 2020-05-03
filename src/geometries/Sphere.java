@@ -66,49 +66,38 @@ public class Sphere extends RadialGeometry {
         return (p.subtract(_center)).normalize();
     }
 
-
+    /**
+     * this function calculate the intersections points
+     * @param ray= the ray thrown toward the geometry
+     * @return list of point created by the intersection between the ray and the geometry
+     */
     @Override
     public List<Point3D> findIntsersections(Ray ray) {
-        // Ray Points: P = P0 + t * v , t >= 0
-        // Sphere points: abs(p^2 - O^2) - r^2 = 0
-        //u = O - P0
         Point3D p0 = ray.get_p0();
         Vector v = ray.getDir();
+        Vector u;
         try {
-            Vector u;
-            u = _center.subtract(p0);
-            //tm = v * u
-            double tm = alignZero(v.dotProduct(u));
-            // d= sqrt(u.squredLength - tm^2)
-            double d = alignZero(Math.sqrt(u.lengthSquared() - tm * tm));
-
-            //⇨ if (d>r) there are no intersections
-            if (alignZero(d - this.get_radius()) >= 0)
-                return null;
-            else {
-                //th = sqrt(r^2 - d^2)
-                double th = alignZero(Math.sqrt(this.get_radius() * this.get_radius() - d * d));
-
-                //t1,2 = tm +- th, pi = p0 + ti
-                double t1 = tm + th;
-                double t2 = tm - th;
-
-                List<Point3D> result = new ArrayList<Point3D>();
-
-                // take only t >= 0
-                if (alignZero(t1) > 0)
-                    result.add(new Point3D(p0.add(v.scale(t1))));
-                if (alignZero(t2) > 0)
-                    result.add(new Point3D(p0.add(v.scale(t2))));
-                if(t1 <=0 && t2 <=0)
-                    return null;
-                return result;
-            }
+            u = _center.subtract(p0);   // p0 == _center
         } catch (IllegalArgumentException e) {
-            // if ray start at the center
-            // => return center + radius
-            Point3D p2 = new Point3D(p0.add(v.scale(this.get_radius())));
-            return List.of(p2);
+            return List.of(ray.getPoint(_radius));
         }
+        double tm = alignZero(v.dotProduct(u));
+        double dSquared = (tm == 0) ? u.lengthSquared() : u.lengthSquared() - tm * tm;
+        double thSquared = alignZero(_radius * _radius - dSquared);
+
+        if (thSquared <= 0) return null;
+
+        double th = alignZero(Math.sqrt(thSquared));
+        if (th == 0) return null;
+
+        double t1 = alignZero(tm - th);
+        double t2 = alignZero(tm + th);
+        if (t1 <= 0 && t2 <= 0) return null;
+        if (t1 > 0 && t2 > 0) return List.of(ray.getPoint(t1), ray.getPoint(t2)); //P1 , P2
+        if (t1 > 0)
+            return List.of(ray.getPoint(t1));
+        else
+            return List.of(ray.getPoint(t2));
     }
-}
+    }
+

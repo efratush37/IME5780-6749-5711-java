@@ -56,7 +56,7 @@ public class Vector {
 
     /**
      * implement equal method(comparing)
-     * @param o
+     * @param o Object
      * @return true or false value regarding their equality
      */
     @Override
@@ -103,8 +103,7 @@ public class Vector {
      * @return the result of the addition as a vector
      */
     public Vector add(Vector v) {
-        Point3D P = this.head.add(v);
-        return new Vector(P);
+        return new Vector(this.head.add(v));
     }
 
     /**
@@ -113,7 +112,9 @@ public class Vector {
      * @return= the result as a vector
      */
     public Vector scale(double s) {
-        return new Vector(this.head.getC1().get() * s, this.head.getC2().get() * s, this.head.getC3().get() * s);
+        return new Vector(this.head.getC1().get() * s,
+                this.head.getC2().get() * s,
+                this.head.getC3().get() * s);
     }
 
     /**
@@ -124,8 +125,7 @@ public class Vector {
         double x = this.head.getC1().get();
         double y = this.head.getC2().get();
         double z = this.head.getC3().get();
-        double len = x * x + y * y + z * z;
-        return len;
+        return (x * x) + (y * y) + (z * z);
     }
 
     /**
@@ -154,10 +154,9 @@ public class Vector {
      * @return the value of a cross product
      */
     public Vector crossProduct(Vector v) {
-        double x = (this.head.getC2().get() * v.head.getC3().get()) - (this.head.getC3().get() * v.head.getC2().get());
-        double y = -((this.head.getC3().get() * v.head.getC1().get()) - (this.head.getC1().get() * v.head.getC3().get()));
-        double z = (this.head.getC1().get() * v.head.getC2().get()) - (this.head.getC2().get() * v.head.getC1().get());
-        return new Vector(x, y, z);
+        return new Vector((this.head.getC2().get() * v.head.getC3().get()) - (this.head.getC3().get() * v.head.getC2().get()),
+                (this.head.getC3().get() * v.head.getC1().get()) - (this.head.getC1().get() * v.head.getC3().get()),
+                (this.head.getC1().get() * v.head.getC2().get()) - (this.head.getC2().get() * v.head.getC1().get()));
     }
 
     /**
