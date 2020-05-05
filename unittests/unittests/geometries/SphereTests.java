@@ -126,7 +126,7 @@ public class SphereTests {
         assertNull("Tangent line, ray at sphere",sphere.findIntsersections(new Ray(new Point3D(1, 1, 0), new Vector(1, 0, 0))));
 
         // TC21: Ray starts after the tangent point
-        assertNull("Tangent line, ray after sphere",sphere.findIntsersections(new Ray(new Point3D(2, 1, 0), new Vector(1, 0, 0))));
+        assertNull("Tangent line, ray after sphere",sphere.findIntsersections(new Ray(new Point3D(2, 1, 0), new Vector(1,0,0))));
 
         // **** Group: Special cases
         // TC19: Ray's line is outside, ray is orthogonal to ray start to sphere's
