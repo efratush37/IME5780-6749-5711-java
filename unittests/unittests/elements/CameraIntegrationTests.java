@@ -62,54 +62,55 @@ public class CameraIntegrationTests {
     }
 
     // **** Group: Construct Ray Throw Pixel With Plane
-      @Test
-      public void constructRayThroughPixelPlane1() {
-      Plane p=new Plane(new Point3D(0,0,0), new Point3D(0,1,0), new Point3D(1,0,0));
-      Camera c=new Camera(new Point3D(0,0,-2), new Vector(0,0,1),new Vector(0,1,0));
-      int count =0;
-      count = helpFunction(c,p);
-      assertEquals("Wrong number of points", 9,count);
-      }
+    @Test
+    public void constructRayThroughPixelPlane1() {
+        Plane p = new Plane(new Point3D(0, 0, 0), new Point3D(0, 1, 0), new Point3D(1, 0, 0));
+        Camera c = new Camera(new Point3D(0, 0, -2), new Vector(0, 0, 1), new Vector(0, 1, 0));
+        int count = 0;
+        count = helpFunction(c, p);
+        assertEquals("Wrong number of points", 9, count);
+    }
 
     @Test
     public void constructRayThroughPixelPlane2() {
-        Plane p=new Plane(new Point3D(-8,2,0), new Point3D(1,0,1), new Point3D(1,2,0));
-        Camera c=new Camera(new Point3D(0,0,-2), new Vector(0,0,1),new Vector(0,1,0));
-        int count =0;
-        count = helpFunction(c,p);
-        assertEquals("Wrong number of points", 9,count);
+        Plane p = new Plane(new Point3D(-8, 2, 0), new Point3D(1, 0, 1), new Point3D(1, 2, 0));
+        Camera c = new Camera(new Point3D(0, 0, -2), new Vector(0, 0, 1), new Vector(0, 1, 0));
+        int count = 0;
+        count = helpFunction(c, p);
+        assertEquals("Wrong number of points", 9, count);
     }
 
     @Test
     public void constructRayThroughPixelPlane3() {
-        Plane p=new Plane(new Point3D(1,0,0), new Point3D(0,0,1), new Point3D(0,1,0));
-        Camera c=new Camera(new Point3D(0,0,-2), new Vector(0,0,1),new Vector(0,1,0));
-        int count =0;
-        count = helpFunction(c,p);
-        assertEquals("Wrong number of points", 6,count);
+        Plane p = new Plane(new Point3D(1, 0, 0), new Point3D(0, 0, 1), new Point3D(0, 1, 0));
+        Camera c = new Camera(new Point3D(0, 0, -2), new Vector(0, 0, 1), new Vector(0, 1, 0));
+        int count = 0;
+        count = helpFunction(c, p);
+        assertEquals("Wrong number of points", 6, count);
     }
 
     // **** Group: Construct Ray Throw Pixel With Triangle
     @Test
     public void constructRayThroughPixelTriangle1() {
-        Triangle t = new Triangle(new Point3D(0,-1,2), new Point3D(1,1,2), new Point3D(-1,1,2));
-        Camera c=new Camera(new Point3D(0,0,-2), new Vector(0,0,1),new Vector(0,1,0));
-        int count =0;
-        count = helpFunction(c,t);
-        assertEquals("Wrong number of points", 1,count);
+        Triangle t = new Triangle(new Point3D(0, -1, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
+        Camera c = new Camera(new Point3D(0, 0, -2), new Vector(0, 0, 1), new Vector(0, 1, 0));
+        int count = 0;
+        count = helpFunction(c, t);
+        assertEquals("Wrong number of points", 1, count);
     }
 
     @Test
     public void constructRayThroughPixelTriangle2() {
-        Triangle t = new Triangle(new Point3D(0,-20,2), new Point3D(1,1,2), new Point3D(-1,1,2));
-        Camera c=new Camera(new Point3D(0,0,-2), new Vector(0,0,1),new Vector(0,1,0));
-        int count =0;
-        count = helpFunction(c,t);
-        assertEquals("Wrong number of points", 2,count);
+        Triangle t = new Triangle(new Point3D(0, -20, 2), new Point3D(1, 1, 2), new Point3D(-1, 1, 2));
+        Camera c = new Camera(new Point3D(0, 0, -2), new Vector(0, 0, 1), new Vector(0, 1, 0));
+        int count = 0;
+        count = helpFunction(c, t);
+        assertEquals("Wrong number of points", 2, count);
     }
 
     /**
      * this function created for our conviency and for preserving the DRY  demand
+     *
      * @param c= the camera
      * @param o= an object who can be sphere, triangle or plane
      * @return the amount of the intersections with the geometry
@@ -121,7 +122,7 @@ public class CameraIntegrationTests {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                r = c.constructRayThroughPixel(3, 3,j , i, 1,3,3);
+                r = c.constructRayThroughPixel(3, 3, j, i, 1, 3, 3);
                 if (o instanceof Sphere) {
                     Sphere g = (Sphere) o;
                     list = g.findIntsersections(r);
