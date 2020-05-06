@@ -1,4 +1,6 @@
+elements
 geometries
 primitives
+unittests.elements
 unittests.geometries
 unittests.primitives
