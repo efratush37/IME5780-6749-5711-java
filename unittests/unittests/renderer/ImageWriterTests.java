@@ -13,11 +13,11 @@ import java.awt.*;
 public class ImageWriterTests {
     @Test
     public void ImageWiterWriteToImageTest() {
-        ImageWriter IMwr=new ImageWriter("ImageWriterTest", 1600, 1000, 800,500);
-        int NX=IMwr.getNx();
-        int NY=IMwr.getNy();
-        for (int i=0; i<NX; i++){
-            for (int j=0; j<NY; j++){
+        ImageWriter IMwr = new ImageWriter("ImageWriterTest", 1600, 1000, 800, 500);
+        int NX = IMwr.getNx();
+        int NY = IMwr.getNy();
+        for (int i = 0; i < NX; i++) {
+            for (int j = 0; j < NY; j++) {
                 if (i % 50 == 0 || j % 50 == 0) {
                     IMwr.writePixel(i, j, Color.WHITE);
                 } else {
@@ -27,9 +27,6 @@ public class ImageWriterTests {
         }
         IMwr.writeToImage();
     }
-
-
-
 
 
 }
