@@ -39,6 +39,7 @@ public class Geometries implements Intersectable {
         }
     }
 
+
     /**
      * this function calculate the intersections points
      * @param ray= the ray thrown toward the geometry
