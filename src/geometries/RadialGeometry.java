@@ -3,7 +3,7 @@ package geometries;
 import primitives.Point3D;
 import primitives.Vector;
 //an abstract class
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     //field
     public double _radius;
 

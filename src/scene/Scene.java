@@ -2,9 +2,14 @@ package scene;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
+
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Scene class which represent scene with geometries
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
@@ -17,6 +22,7 @@ public class Scene {
     private Geometries _geometries;
     private Camera _camera;
     private double _distance;
+    List<LightSource> _lights=new LinkedList<LightSource>();
 
     /**
      * constructor for the scene
@@ -81,11 +87,16 @@ public class Scene {
         return _geometries;
     }
 
+    public List<LightSource> get_lights() {
+        return _lights;
+    }
+
     /**
      * set method for the background color field
      * @param _background= the value of the background color
      *
      */
+
     public void set_background(Color _background) {
         this._background = _background;
     }
@@ -121,6 +132,11 @@ public class Scene {
     public void addGeometries(Intersectable... Geometries) {
         for (Intersectable i : Geometries){
             _geometries.add(i);
+        }
+    }
+    public void  addLights(LightSource...light){
+        for (LightSource l: light){
+            _lights.add(l);
         }
     }
 

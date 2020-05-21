@@ -1,6 +1,7 @@
 package unittests.elements;
 
 import elements.Camera;
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
@@ -117,7 +118,7 @@ public class CameraIntegrationTests {
      */
     public int helpFunction(Camera c, Object o) {
         Ray r;
-        List<Point3D> list;
+        List<GeoPoint> list;
         int counter = 0;
 
         for (int i = 0; i < 3; i++) {

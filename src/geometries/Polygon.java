@@ -12,7 +12,7 @@ import static primitives.Util.*;
  *
  * @author Dan
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * List of polygon's vertices
      */
@@ -81,7 +81,14 @@ public class Polygon implements Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
-
+public Polygon(Color color,Point3D... vertices){
+        this(vertices);
+        emission=color;
+}
+    public Polygon(Material m,Color color,Point3D... vertices){
+        this(color,vertices);
+        material=m;
+    }
     /**
      * this function returns the normal of the geometry
      *
@@ -100,8 +107,8 @@ public class Polygon implements Geometry {
      * @return list of point created by the intersection between the ray and the geometry
      */
     @Override
-    public List<Point3D> findIntsersections(Ray ray) {
-        List<Point3D> intersections = _plane.findIntsersections(ray);
+    public List<GeoPoint> findIntsersections(Ray ray) {
+        List<GeoPoint> intersections = _plane.findIntsersections(ray);
         if (intersections == null) return null;
 
         Point3D p0 = ray.get_p0();
@@ -122,7 +129,9 @@ public class Polygon implements Geometry {
             if (isZero(sign)) return null;
             if (positive != (sign > 0)) return null;
         }
-
+        for (GeoPoint g : intersections) {
+            g.geometry=this;
+        }
         return intersections;
     }
 }

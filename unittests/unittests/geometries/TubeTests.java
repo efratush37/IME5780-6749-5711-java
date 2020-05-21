@@ -1,5 +1,6 @@
 package unittests.geometries;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Tube;
 import org.junit.Test;
 import primitives.Point3D;
@@ -42,7 +43,7 @@ public class TubeTests {
         Tube tube = new Tube(1d, ray);
 
         // TC01: Ray's line is outside the tube (0 points)
-        List<Point3D> result = tube.findIntsersections(new Ray(new Point3D(0, 4, 3),
+        List<GeoPoint> result = tube.findIntsersections(new Ray(new Point3D(0, 4, 3),
                 new Vector(1, 0, 0)));
 
         assertEquals("Ray's line out of tube", null, result);
@@ -53,7 +54,7 @@ public class TubeTests {
 
         assertEquals("Wrong number of points", 2, result.size());
 
-        if (result.get(0).getC1().get() > result.get(1).getC1().get())
+        if (result.get(0).point.getC1().get() > result.get(1).point.getC1().get())
             result = List.of(result.get(1), result.get(0));
         assertEquals("Ray crosses tube", List.of(p1, p2), result);
 

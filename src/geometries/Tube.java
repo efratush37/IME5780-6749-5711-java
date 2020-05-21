@@ -1,9 +1,6 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
@@ -23,7 +20,14 @@ public class Tube extends RadialGeometry {
         super(_radius);
         this._axisRay = new Ray(_axisRay);
     }
-
+    public Tube(Color color, double _radius, Ray _axisRay) {
+        this(_radius,_axisRay);
+        emission=color;
+    }
+    public Tube(Material m, Color color, double _radius, Ray _axisRay) {
+        this(color,_radius,_axisRay);
+        material=m;
+    }
     /**
      * get method for the ray field
      *
@@ -79,7 +83,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<Point3D> findIntsersections(Ray ray) {
+    public List<GeoPoint> findIntsersections(Ray ray) {
         Vector vTube = _axisRay.getDir();
         Vector vectorV0;
         Vector vXvTube;
@@ -117,10 +121,10 @@ public class Tube extends RadialGeometry {
         double t2 = Util.alignZero((-b + Math.sqrt(d)) / (2 * a));
         if (t1 <= 0 && t2 <= 0) return null;
         if (t1 > 0 && t2 > 0)
-            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+            return List.of(new GeoPoint(this,ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
         if (t1 > 0)
-            return List.of(ray.getPoint(t1));
+            return List.of(new GeoPoint(this,ray.getPoint(t1)));
         else
-            return List.of(ray.getPoint(t2));
+            return List.of(new GeoPoint(this,ray.getPoint(t2)));
     }
 }

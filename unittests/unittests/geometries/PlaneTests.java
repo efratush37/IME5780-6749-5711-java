@@ -1,5 +1,6 @@
 package unittests.geometries;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Tube;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class PlaneTests {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersects the plane
-        List<Point3D> result = plane.findIntsersections(new Ray(new Point3D(0, -2, 0), new Vector(1, 1, 1)));
+        List<GeoPoint> result = plane.findIntsersections(new Ray(new Point3D(0, -2, 0), new Vector(1, 1, 1)));
         assertEquals("Wrong number of points", 1, result.size());
         point = new Point3D(2, 0, 2);
         assertEquals("Ray does not intersect the plane", List.of(point), result);
@@ -74,7 +75,7 @@ public class PlaneTests {
         Ray r21 = new Ray(new Point3D(0, 1, 0), new Vector(0, -2, 0));
         assertEquals("the ray doesn't orthogonal to the plane", 0, v.dotProduct(r21.getDir().normalize()), 0);
         assertEquals("the ray doesn't orthogonal to the plane", 1, (plane.findIntsersections(r21)).size());
-        List<Point3D> result22 = plane.findIntsersections(r21);
+        List<GeoPoint> result22 = plane.findIntsersections(r21);
         Point3D point21 = new Point3D(0, 0, 0);
         assertEquals("Orthogonal-before", List.of(point21), result22);
 

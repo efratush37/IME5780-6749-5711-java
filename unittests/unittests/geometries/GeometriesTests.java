@@ -8,7 +8,7 @@ import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
+import geometries.Intersectable.GeoPoint;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class GeometriesTests {
     public void findIntsersections() {
         // ============ Equivalence Partitions Tests ==============
         Geometries geometries = new Geometries();
-        List<Point3D> result;
+        List<GeoPoint> result;
 
         // TC11: An empty collection of geometries
         result = geometries.findIntsersections(new Ray(new Point3D(6, 6, 6), new Vector(1, 0, 0)));

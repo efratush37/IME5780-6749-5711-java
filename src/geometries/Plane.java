@@ -1,16 +1,14 @@
 package geometries;
 
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     //fields
     private Point3D _p;
     private Vector _normal;
@@ -39,6 +37,14 @@ public class Plane implements Geometry {
     public Plane(Point3D _p, Vector _normal) {
         this._p = new Point3D(_p);
         this._normal = new Vector(_normal).normalize();
+    }
+    public Plane(Color color, Point3D _p, Vector _normal){
+        this(_p,_normal);
+        emission=color;
+    }
+    public Plane(Material m, Color color, Point3D _p, Vector _normal){
+        this(color,_p,_normal);
+        material=m;
     }
 
     /**
@@ -100,7 +106,7 @@ public class Plane implements Geometry {
      * @return list of point created by the intersection between the ray and the geometry
      */
     @Override
-    public List<Point3D> findIntsersections(Ray ray) {
+    public List<GeoPoint> findIntsersections(Ray ray) {
         //P = P0 + T*V, T >= 0
         // N * Q0 - P = 0
 
@@ -120,7 +126,6 @@ public class Plane implements Geometry {
             return null;
 
         double t = alignZero(_normal.dotProduct(p0Q) / nv);
-
-        return t <= 0 ? null : List.of(ray.getPoint(t));
+        return t <= 0 ? null : List.of(new GeoPoint(this,ray.getPoint(t)));
     }
 }

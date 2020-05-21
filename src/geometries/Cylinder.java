@@ -1,8 +1,6 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.List;
 
@@ -23,7 +21,14 @@ public class Cylinder extends Tube {
         super(_radius, _axisRay);
         this._height = _height;
     }
-
+    public Cylinder(Color color,double _radius, Ray _axisRay, double _height ){
+        this(_radius,_axisRay,_height);
+        emission=color;
+    }
+    public Cylinder(Material m, Color color, double _radius, Ray _axisRay, double _height ){
+        this(color,_radius,_axisRay,_height);
+        material=m;
+    }
     /**
      * get method for the height field
      * @return the value of the height field
@@ -71,7 +76,7 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public List<Point3D> findIntsersections(Ray ray) {
+    public List<GeoPoint> findIntsersections(Ray ray) {
         return super.findIntsersections(ray);
     }
 }

@@ -1,5 +1,6 @@
 package unittests.geometries;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Triangle;
 import geometries.Tube;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class TriangleTests {
         Triangle t=new Triangle(new Point3D(0,0,0),new Point3D(3,0,0),new Point3D(0,0,3));
         // TC01: Inside the triangle
         Ray r=new Ray(new Point3D(1,1,1), new Vector(0,-2,0));
-        List<Point3D> result = t.findIntsersections(r);
+        List<GeoPoint> result = t.findIntsersections(r);
         assertEquals("Wrong number of points", 1, result.size());
         Point3D p1 = new Point3D(1, 0, 1);
         assertEquals("Ray intersect the triangle inside", List.of(p1), result);

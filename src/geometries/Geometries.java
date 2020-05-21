@@ -46,11 +46,11 @@ public class Geometries implements Intersectable {
      * @return list of point created by the intersection between the ray and the geometry
      */
     @Override
-    public List<Point3D> findIntsersections(Ray ray) {
-        List<Point3D> intersections = new ArrayList<Point3D>();
+    public List<GeoPoint> findIntsersections(Ray ray) {
+        List<GeoPoint> intersections = null;
 
         for (Intersectable geometry : listOfGeo) {
-            List<Point3D> result = geometry.findIntsersections(ray);
+            List<GeoPoint> result = geometry.findIntsersections(ray);
             if (result != null) {
                 intersections.addAll(result);
             }

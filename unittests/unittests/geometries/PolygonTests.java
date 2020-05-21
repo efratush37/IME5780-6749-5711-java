@@ -6,7 +6,7 @@ package unittests.geometries;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
+import geometries.Intersectable.GeoPoint;
 import geometries.*;
 import primitives.*;
 
@@ -101,7 +101,7 @@ public class PolygonTests {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01 - ray intersects with polygon
-        List<Point3D> result = p.findIntsersections(new Ray(new Point3D(1.0, -5.0, 3.0), new Vector(0.0, 3.0, 0.0)));
+        List<GeoPoint> result = p.findIntsersections(new Ray(new Point3D(1.0, -5.0, 3.0), new Vector(0.0, 3.0, 0.0)));
         point = new Point3D(1.0, 4.0, 3.0);
         assertEquals("ray not intersect", List.of(point), result);
 
