@@ -16,7 +16,6 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for Geometries.Plane class
- *
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class PlaneTests {
@@ -45,13 +44,14 @@ public class PlaneTests {
         //System.out.println(n);
         Point3D point;
 
+        //refactoring to a list of geo pints
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Ray intersects the plane
         List<GeoPoint> result = plane.findIntsersections(new Ray(new Point3D(0, -2, 0), new Vector(1, 1, 1)));
         assertEquals("Wrong number of points", 1, result.size());
         point = new Point3D(2, 0, 2);
-        assertEquals("Ray does not intersect the plane", List.of(point), result);
+        assertEquals("Ray does not intersect the plane", List.of(new GeoPoint(plane, point)), result);
 
         // TC02: Ray does not intersect the plane
         result = plane.findIntsersections(new Ray(new Point3D(0, -2, 0), new Vector(-1, 0, 0)));
@@ -77,7 +77,7 @@ public class PlaneTests {
         assertEquals("the ray doesn't orthogonal to the plane", 1, (plane.findIntsersections(r21)).size());
         List<GeoPoint> result22 = plane.findIntsersections(r21);
         Point3D point21 = new Point3D(0, 0, 0);
-        assertEquals("Orthogonal-before", List.of(point21), result22);
+        assertEquals("Orthogonal-before", List.of(new GeoPoint(plane, point21)), result22);
 
         // TC22: p0 in the plane
         Ray r22 = new Ray(new Point3D(0, 0, 0), new Vector(0, -2, 0));

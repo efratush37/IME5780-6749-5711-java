@@ -5,14 +5,16 @@ import primitives.*;
 import java.util.List;
 
 import static primitives.Util.isZero;
-
+/**
+ * Geometries.Tube class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 public class Tube extends RadialGeometry {
     //field
     private Ray _axisRay;
 
     /**
      * constructor with two arguments
-     *
      * @param _axisRay= ray of the tube
      * @param _radius=  radius of the tube
      */
@@ -20,14 +22,30 @@ public class Tube extends RadialGeometry {
         super(_radius);
         this._axisRay = new Ray(_axisRay);
     }
+
+    /**
+     * constructor with the color of the tube
+     * @param color the color of the tube
+     * @param _radius radius of the tube
+     * @param _axisRay ray of the tube
+     */
     public Tube(Color color, double _radius, Ray _axisRay) {
-        this(_radius,_axisRay);
-        emission=color;
+        this(_radius, _axisRay);
+        emission = color;
     }
-    public Tube(Material m, Color color, double _radius, Ray _axisRay) {
-        this(color,_radius,_axisRay);
-        material=m;
+
+    /**
+     * constructor with parameters for all the arguments
+     * @param color the color of the tube
+     * @param m the value of the material of the tube
+     * @param _radius radius of the tube
+     * @param _axisRay ray of the tube
+     */
+    public Tube(Color color, Material m, double _radius, Ray _axisRay) {
+        super(color, m, _radius);
+        this._axisRay = _axisRay;
     }
+
     /**
      * get method for the ray field
      *
@@ -82,6 +100,12 @@ public class Tube extends RadialGeometry {
         return check.normalize();
     }
 
+    /**
+     * this function calculate the intersections points
+     * (refactoring, returns list of geo points instead of regular points)
+     * @param ray the ray thrown toward the geometry
+     * @return list of geo points created by the intersection between the ray and the tube
+     */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
         Vector vTube = _axisRay.getDir();
@@ -91,17 +115,17 @@ public class Tube extends RadialGeometry {
         try {
             vectorV0 = ray.get_p0().subtract(_axisRay.get_p0());
         } catch (IllegalArgumentException e) {
-            vectorV0 = new Vector(0,0,0);
+            vectorV0 = new Vector(0, 0, 0);
         }
         try {
             rayDirXvTube = vectorV0.crossProduct(vTube);
         } catch (IllegalArgumentException e) {
-            rayDirXvTube = new Vector(0,0,0);
+            rayDirXvTube = new Vector(0, 0, 0);
         }
         try {
             vXvTube = ray.getDir().crossProduct(vTube);
         } catch (IllegalArgumentException e) {
-            vXvTube = new Vector(0,0,0);
+            vXvTube = new Vector(0, 0, 0);
         }
 
         // Cylinder [Ray(Point A,Vector V), r].
@@ -121,10 +145,10 @@ public class Tube extends RadialGeometry {
         double t2 = Util.alignZero((-b + Math.sqrt(d)) / (2 * a));
         if (t1 <= 0 && t2 <= 0) return null;
         if (t1 > 0 && t2 > 0)
-            return List.of(new GeoPoint(this,ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
         if (t1 > 0)
-            return List.of(new GeoPoint(this,ray.getPoint(t1)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)));
         else
-            return List.of(new GeoPoint(this,ray.getPoint(t2)));
+            return List.of(new GeoPoint(this, ray.getPoint(t2)));
     }
 }

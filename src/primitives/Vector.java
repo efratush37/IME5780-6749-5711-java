@@ -2,6 +2,11 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * Geometries.Vector class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ * this class represents a vector
+ */
 public class Vector {
     //field
     private Point3D head;

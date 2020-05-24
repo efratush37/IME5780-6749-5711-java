@@ -21,7 +21,6 @@ public class Render {
 
     /**
      * a constructor for the Render object
-     *
      * @param img an image writer object
      * @param s   a scene object
      */
@@ -31,7 +30,8 @@ public class Render {
     }
 
     /**
-     * this function create the background image by the intersection points
+     * this function create the image by the intersection points
+     * (refactoring- now when we create the image, were going on a list of geo points)
      */
     public void renderImage() {
         Camera camera = scene.get_camera();
@@ -44,12 +44,15 @@ public class Render {
         Double width = IMwr.getWidth();
         Double height = IMwr.getHeight();
 
+
         for (int i = 0; i < nX; i++) {
             for (int j = 0; j < nY; j++) {
                 Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, distance, width, height);
-                List<GeoPoint> intersectionPoints = scene.get_geometries().findIntsersections(ray);
+
+                List<GeoPoint> intersectionPoints = geometries.findIntsersections(ray);
+
                 if (intersectionPoints == null) {
-                    IMwr.writePixel(j, i, scene.get_background().getColor());
+                    IMwr.writePixel(j, i, background);
                 } else {
                     GeoPoint closestPoint = getClosestPoint(intersectionPoints);
                     IMwr.writePixel(j, i, (calcColor(closestPoint)).getColor());
@@ -60,9 +63,9 @@ public class Render {
 
     /**
      * this function calculate the color of a point
-     *
-     * @param p=a point
-     * @return the color of the point
+     * (refactoring- now we get geo point instead of regular point)
+     * @param p a geo point
+     * @return the color in the pixel
      */
     private Color calcColor(GeoPoint p) {
         Color color = scene.get_ambientLight().get_intensity();
@@ -73,6 +76,7 @@ public class Render {
         int shine = m.getnShininess();
         double kd = m.getkD();
         double ks = m.getkS();
+        //regarding the phong model, calculating the color by the influence of all the light sources on the point
         for (LightSource lightSource : scene.get_lights()) {
             Vector l = lightSource.getL(p.point);
             double nl = alignZero(n.dotProduct(l));
@@ -88,18 +92,20 @@ public class Render {
         return color;
     }
 
+    //a helper method for calculating the diffusive color
     private Color calcDiffusive(double kd, double nl, Color ip) {
         if (nl < 0) {
             nl = -nl;
         }
-
         return ip.scale(nl * kd);
     }
 
+    //a helper method for checking rather the value is positive or not
     private boolean sign(double val) {
         return (val > 0d);
     }
 
+    //a helper method for calculating the specular color
     private Color calcSpecular(double ks, Vector l, Vector n, double nl, Vector v, int nShininess, Color ip) {
         double p = nShininess;
 
@@ -115,9 +121,10 @@ public class Render {
 
 
     /**
-     * this function chek which point is the closest to the camera
-     * @param points= list of intersections points
-     * @return the closest point to the camera
+     * this function chek which point value of the geo point is the closest to the camera
+     * (refactoring- now we get geo point and return geo point instead of regular point)
+     * @param points= list of geo point representing intersections points of the geometry
+     * @return the geo point that it's point value closest to the camera
      */
     private GeoPoint getClosestPoint(List<GeoPoint> points) {
 

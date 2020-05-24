@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Scene class which represent scene with geometries
+ *
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class Scene {
@@ -22,20 +23,20 @@ public class Scene {
     private Geometries _geometries;
     private Camera _camera;
     private double _distance;
-    List<LightSource> _lights=new LinkedList<LightSource>();
+    private List<LightSource> _lights; //collection of lights sources
 
     /**
      * constructor for the scene
      * @param name= the name of the scene
      */
-    public Scene(String name){
-        this._name=name;
-        this._geometries=new Geometries();
+    public Scene(String name) {
+        this._name = name;
+        this._geometries = new Geometries();
+        this._lights = new LinkedList<LightSource>();
     }
 
     /**
      * get method for the name field
-     *
      * @return the value of the name field
      */
     public String get_name() {
@@ -44,7 +45,6 @@ public class Scene {
 
     /**
      * get method for the ambient light field
-     *
      * @return the value of the ambient light field
      */
     public AmbientLight get_ambientLight() {
@@ -53,7 +53,6 @@ public class Scene {
 
     /**
      * get method for the background color field
-     *
      * @return the value of the background color field
      */
     public Color get_background() {
@@ -62,7 +61,6 @@ public class Scene {
 
     /**
      * get method for the camera object field
-     *
      * @return the value of the camera object field
      */
     public Camera get_camera() {
@@ -71,7 +69,6 @@ public class Scene {
 
     /**
      * get method for the distance field
-     *
      * @return the value of the distance field
      */
     public double get_distance() {
@@ -80,21 +77,24 @@ public class Scene {
 
     /**
      * get method for the geometries field
-     *
-     * @return the value of the geometries field
+     * @return the collection of the geometries
      */
     public Geometries get_geometries() {
         return _geometries;
     }
 
+    /**
+     * get method for the lifht collection field
+     * @return the collection of the light sources
+     */
     public List<LightSource> get_lights() {
         return _lights;
     }
 
     /**
      * set method for the background color field
-     * @param _background= the value of the background color
      *
+     * @param _background= the value of the background color
      */
 
     public void set_background(Color _background) {
@@ -127,16 +127,21 @@ public class Scene {
 
     /**
      * this function enable adding geometry to a list
-     * @param Geometries= list of geometries
+     * @param Geometries list of geometries
      */
     public void addGeometries(Intersectable... Geometries) {
-        for (Intersectable i : Geometries){
+        for (Intersectable i : Geometries) {
             _geometries.add(i);
         }
     }
-    public void  addLights(LightSource...light){
-        for (LightSource l: light){
-            _lights.add(l);
+
+    /**
+     * this method enable adding light sources to the collection
+     * @param light list of light sources
+     */
+    public void addLights(LightSource... light) {
+        for (LightSource l : light) {
+            this._lights.add(l);
         }
     }
 

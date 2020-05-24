@@ -39,16 +39,20 @@ public class TriangleTests {
         assertEquals(vector, triangle.getNormal(new Point3D(0.5, 0, 0)));
     }
 
+    /***
+     * test method for the find intersection function between a ray and the triangle
+     */
     @Test
     public void findIntsersections() {
         // ============ Equivalence Partitions Tests ==============
         Triangle t=new Triangle(new Point3D(0,0,0),new Point3D(3,0,0),new Point3D(0,0,3));
         // TC01: Inside the triangle
         Ray r=new Ray(new Point3D(1,1,1), new Vector(0,-2,0));
+        //refactoring to a list of geo points
         List<GeoPoint> result = t.findIntsersections(r);
         assertEquals("Wrong number of points", 1, result.size());
         Point3D p1 = new Point3D(1, 0, 1);
-        assertEquals("Ray intersect the triangle inside", List.of(p1), result);
+        assertEquals("Ray intersect the triangle inside", List.of(new GeoPoint(t, p1)), result);
 
         // TC02: Outside against edge
         Ray r2=new Ray(new Point3D(1,1,1), new Vector(-2,0,0));

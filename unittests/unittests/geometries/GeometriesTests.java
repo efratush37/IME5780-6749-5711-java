@@ -13,14 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-
+/**
+ * Unit tests for Geometries.Geometries class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 public class GeometriesTests {
 
     @Test
     public void findIntsersections() {
         // ============ Equivalence Partitions Tests ==============
         Geometries geometries = new Geometries();
-        List<GeoPoint> result;
+        List<GeoPoint> result;//refactoring to a list of geo points
 
         // TC11: An empty collection of geometries
         result = geometries.findIntsersections(new Ray(new Point3D(6, 6, 6), new Vector(1, 0, 0)));

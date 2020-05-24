@@ -6,14 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
-
+/**
+ * Geometries.Sphere class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 public class Sphere extends RadialGeometry {
     //field
     private Point3D _center;
 
     /**
      * constructor with two arguments
-     *
      * @param _center= the center point of the sphere
      * @param _radius= the radius of the sphere
      */
@@ -22,14 +24,29 @@ public class Sphere extends RadialGeometry {
         this._center = _center;
     }
 
+    /**
+     * constructor with the argument of the color of the sphere
+     * @param color the color of the sphere
+     * @param _radius the radius of the sphere
+     * @param _center the center point of the sphere
+     */
     public Sphere(Color color,double _radius, Point3D _center) {
         this(_radius,_center);
         emission=color;
     }
-    public Sphere(Material m,Color color, double _radius, Point3D _center) {
-        this(color,_radius,_center);
-       material=m;
+
+    /**
+     * constructor who's gets al the argument as a parameter
+     * @param color the color of the sphere
+     * @param m the value of the argument of the material field
+     * @param _radius the radius of the sphere
+     * @param _center the center point of the sphere
+     */
+    public Sphere(Color color,Material m, double _radius, Point3D _center) {
+        super(color, m, _radius);
+        this._center = _center;
     }
+
     /**
      * get method for the radius field
      *
@@ -74,8 +91,9 @@ public class Sphere extends RadialGeometry {
 
     /**
      * this function calculate the intersections points
-     * @param ray= the ray thrown toward the geometry
-     * @return list of point created by the intersection between the ray and the geometry
+     * (refactoring, returns list of geo points instead of regular points)
+     * @param ray the ray thrown toward the geometry
+     * @return list of geo points created by the intersection between the ray and the sphere
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {

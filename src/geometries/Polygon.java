@@ -25,7 +25,8 @@ public class Polygon extends Geometry {
     /**
      * Polygon constructor based on vertices list. The list must be ordered by edge
      * path. The polygon must be convex.
-     *
+     * @param emission the color of the polygon
+     * @param material the value of the material argument of the polygon
      * @param vertices list of vertices according to their order by edge path
      * @throws IllegalArgumentException in any case of illegal combination of
      *                                  vertices:
@@ -43,7 +44,8 @@ public class Polygon extends Geometry {
      *                                  <li>The polygon is concave (not convex)</li>
      *                                  </ul>
      */
-    public Polygon(Point3D... vertices) {
+    public Polygon(Color emission, Material material, Point3D... vertices) {
+        super(emission, material);
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
@@ -81,17 +83,28 @@ public class Polygon extends Geometry {
                 throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
         }
     }
-public Polygon(Color color,Point3D... vertices){
-        this(vertices);
-        emission=color;
-}
-    public Polygon(Material m,Color color,Point3D... vertices){
-        this(color,vertices);
-        material=m;
+
+    /**
+     * constructor withe the argument of color of the polygon
+     * puts default value for the material argument
+     * @param color the color of the polygon
+     * @param vertices the vertices of the polygon
+     */
+    public Polygon(Color color, Point3D... vertices) {
+        this(color, new Material(0d, 0d, 0), vertices);
     }
+
+    /**
+     * constructor of the polygon
+     * puts default value for the material argument
+     * @param vertices the vertices of the polygon
+     */
+    public Polygon(Point3D... vertices) {
+        this(Color.BLACK, new Material(0d, 0d, 0), vertices);
+    }
+
     /**
      * this function returns the normal of the geometry
-     *
      * @param point point
      * @return the normal to the polygon
      */
@@ -102,9 +115,9 @@ public Polygon(Color color,Point3D... vertices){
 
     /**
      * this function calculate the intersections points
-     *
-     * @param ray= the ray thrown toward the geometry
-     * @return list of point created by the intersection between the ray and the geometry
+     * (refactoring, returns list of geo points instead of regular points)
+     * @param ray the ray thrown toward the geometry
+     * @return list of geo points created by the intersection between the ray and the polygon
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
@@ -129,8 +142,10 @@ public Polygon(Color color,Point3D... vertices){
             if (isZero(sign)) return null;
             if (positive != (sign > 0)) return null;
         }
+
+        //the for loop going over all the geo point list and set their geometry field to be poygon
         for (GeoPoint g : intersections) {
-            g.geometry=this;
+            g.geometry = this;
         }
         return intersections;
     }

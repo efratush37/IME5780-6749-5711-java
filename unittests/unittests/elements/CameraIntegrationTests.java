@@ -13,9 +13,11 @@ import primitives.Vector;
 import java.util.List;
 
 import static org.junit.Assert.*;
-
+/**
+ * test class for the intergration between the camera and the find intersection method
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 public class CameraIntegrationTests {
-
     // **** Group: Construct Ray Throw Pixel With Sphere
     @Test
     public void constructRayThroughPixelSphere1() {
@@ -110,11 +112,12 @@ public class CameraIntegrationTests {
     }
 
     /**
-     * this function created for our conviency and for preserving the DRY  demand
+     * this function created for our conviniency and for preserving the DRY  demand
      *
      * @param c= the camera
      * @param o= an object who can be sphere, triangle or plane
      * @return the amount of the intersections with the geometry
+     * (refactoring- now we use list of geo points to represent the intersections points)
      */
     public int helpFunction(Camera c, Object o) {
         Ray r;

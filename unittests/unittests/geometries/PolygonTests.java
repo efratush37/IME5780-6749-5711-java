@@ -94,6 +94,9 @@ public class PolygonTests {
         assertEquals("Bad normal to trinagle", new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point3D(0, 0, 1)));
     }
 
+    /**
+     * test method for the find intersection function between a ray and the polygon
+     */
     @Test
     public void findIntsersections() {
         Polygon p = new Polygon(new Point3D(4.0, 4.0, 0.0), new Point3D(4.0, 4.0, 4.0), new Point3D(-4.0, 4.0, 4.0), new Point3D(-4.0, 4.0, 0.0));
@@ -101,9 +104,10 @@ public class PolygonTests {
         // ============ Equivalence Partitions Tests ==============
 
         //TC01 - ray intersects with polygon
+        //refactoring to a list of geo points
         List<GeoPoint> result = p.findIntsersections(new Ray(new Point3D(1.0, -5.0, 3.0), new Vector(0.0, 3.0, 0.0)));
         point = new Point3D(1.0, 4.0, 3.0);
-        assertEquals("ray not intersect", List.of(point), result);
+        assertEquals("ray not intersect", List.of(new GeoPoint(p, point)), result);
 
         //TC02- ray intersects with plane but outside the polygon against edge
         result = p.findIntsersections(new Ray(new Point3D(6.0, -1.0, 0.0), new Vector(0.0, 3.0, 0.0)));

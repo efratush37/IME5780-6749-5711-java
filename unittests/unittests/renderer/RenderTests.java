@@ -12,7 +12,7 @@ import scene.Scene;
 /**
  * Test rendering abasic image
  *
- * @author Dan
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class RenderTests {
 
@@ -52,10 +52,11 @@ public class RenderTests {
         scene.set_background(Color.BLACK);
         scene.set_ambientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.2));
 
-        scene.addGeometries(new Sphere(50, new Point3D(0, 0, 100)));
+        scene.addGeometries(new Sphere(45, new Point3D(0, 0, 100)));
 
         scene.addGeometries(
-                new Triangle(new Color(java.awt.Color.BLUE), new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),      // lower right
+                new Triangle(new Color(java.awt.Color.BLUE),
+                        new Point3D(100, 0, 100), new Point3D(0, 100, 100), new Point3D(100, 100, 100)),      // lower right
                 new Triangle(
                         new Point3D(100, 0, 100), new Point3D(0, -100, 100), new Point3D(100, -100, 100)),    // upper right
                 new Triangle(new Color(java.awt.Color.RED),

@@ -4,6 +4,11 @@ import java.util.Objects;
 
 import static primitives.Util.isZero;
 
+/**
+ * Geometries.Ray class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ * this class represents a ray
+ */
 public class Ray {
     //fields
     private Vector dir;

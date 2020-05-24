@@ -7,7 +7,11 @@ import primitives.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+/**
+ * Geometries.geometries class
+ * this class represents collection of geometries
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 
 public class Geometries implements Intersectable {
     //field
@@ -42,12 +46,13 @@ public class Geometries implements Intersectable {
 
     /**
      * this function calculate the intersections points
-     * @param ray= the ray thrown toward the geometry
-     * @return list of point created by the intersection between the ray and the geometry
+     * (refactoring, returns list of geo points instead of regular points)
+     * @param ray the ray thrown toward the geometry
+     * @return list of geo points created by the intersection between the ray and the geometry
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
-        List<GeoPoint> intersections = null;
+        List<GeoPoint> intersections = new ArrayList<GeoPoint>();
 
         for (Intersectable geometry : listOfGeo) {
             List<GeoPoint> result = geometry.findIntsersections(ray);

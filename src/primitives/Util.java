@@ -3,7 +3,7 @@ package primitives;
 /**
  * Util class is used for some internal utilities, e.g. controlling accuracy
  *
- * @author Dan
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public abstract class Util {
     // It is binary, equivalent to ~1/1,000,000,000,000 in decimal (12 digits)

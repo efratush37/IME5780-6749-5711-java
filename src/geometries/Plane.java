@@ -8,6 +8,10 @@ import java.util.List;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+/**
+ * Geometries.plane class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ */
 public class Plane extends Geometry {
     //fields
     private Point3D _p;
@@ -30,18 +34,32 @@ public class Plane extends Geometry {
 
     /**
      * constructor with two arguments
-     *
-     * @param _p      point
+     * @param _p  the point of the plane
      * @param _normal normal of the object
      */
     public Plane(Point3D _p, Vector _normal) {
         this._p = new Point3D(_p);
         this._normal = new Vector(_normal).normalize();
     }
+
+    /**
+     * constructor eithe the argument of color of the plane
+     * @param color the color of the plane
+     * @param _p the point of the plane
+     * @param _normal the normal of the plane
+     */
     public Plane(Color color, Point3D _p, Vector _normal){
         this(_p,_normal);
         emission=color;
     }
+
+    /**
+     * constructor with all the arguments create the plane
+     * @param m the value of the material of the plane
+     * @param color the color of the plane
+     * @param _p the point of the plane
+     * @param _normal the normal of the plane
+     */
     public Plane(Material m, Color color, Point3D _p, Vector _normal){
         this(color,_p,_normal);
         material=m;
@@ -101,9 +119,9 @@ public class Plane extends Geometry {
 
     /**
      * this function calculate the intersections points
-     *
+     * (refactoring, returns list of geo points instead of regular points)
      * @param ray= the ray thrown toward the geometry
-     * @return list of point created by the intersection between the ray and the geometry
+     * @return list of geo points created by the intersection between the ray and the plane
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {

@@ -29,6 +29,9 @@ public class CylinderTests {
         assertEquals(ray.getDir(), cylinder.getNormal(ray.get_p0().add(new Vector(-2, 0, 1).normalized().scale(1.5d))));
     }
 
+    /**
+     * test method for the find intersection function between a ray and a geometry
+     */
     @Test
     public void findIntsersections() {
 

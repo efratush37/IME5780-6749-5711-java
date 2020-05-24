@@ -2,6 +2,11 @@ package primitives;
 
 import java.util.Objects;
 
+/**
+ * Geometries.Point3D class
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
+ * this class represents a point
+ */
 public class Point3D {
     //fields
     private Coordinate c1;
