@@ -10,7 +10,7 @@ import scene.Scene;
 
 /**
  * Test rendering abasic image
- * 
+ *
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class LightsTests {
@@ -84,6 +84,7 @@ public class LightsTests {
         render.renderImage();
         render.writeToImage();
     }
+
     @Test
     public void sphereDirectionalSpotPoint() {
         Scene scene = new Scene("Test scene");
@@ -97,7 +98,7 @@ public class LightsTests {
 
         scene.addLights(new DirectionalLight(new Color(500, 300, 0), new Vector(1, -1, 1)));
         scene.addLights(new SpotLight(new Color(500, 300, 0), new Point3D(-15, -40, -5),
-                new Vector(-4, 7,30), 1, 0.00001, 0.00001));
+                new Vector(-4, 7, 30), 1, 0.00001, 0.00001));
         scene.addLights(new PointLight(new Color(500, 300, 0), new Point3D(100, -50, 30), 1, 0.00001, 0.000001));
         ImageWriter imageWriter = new ImageWriter("sphereDirectionalSpotPoint", 150, 150, 500, 500);
         Render render = new Render(imageWriter, scene);
@@ -187,6 +188,7 @@ public class LightsTests {
         render.renderImage();
         render.writeToImage();
     }
+
     @Test
     public void trianglesDirectionalSpotPoint() {
         Scene scene = new Scene("Test scene");
