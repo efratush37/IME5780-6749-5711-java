@@ -9,11 +9,10 @@ import java.util.Objects;
  */
 public class Vector {
     //field
-    private Point3D head;
+    private Point3D head; //a point that represents the head of the vector
 
     /**
      * constructor with three arguments
-     *
      * @param _c1= coordinate
      * @param _c2= coordinate
      * @param _c3= coordinate
@@ -26,7 +25,6 @@ public class Vector {
 
     /**
      * constructor with three arguments
-     *
      * @param d1= double value
      * @param d2= double value
      * @param d3= double value
@@ -49,7 +47,6 @@ public class Vector {
 
     /**
      * copy constructor
-     *
      * @param v an existing vector
      */
     public Vector(Vector v) {
@@ -58,7 +55,6 @@ public class Vector {
 
     /**
      * get method for the head point field
-     *
      * @return the value of the head point field
      */
     public Point3D getHead() {
@@ -67,7 +63,6 @@ public class Vector {
 
     /**
      * implement equal method(comparing)
-     *
      * @param o Object
      * @return true or false value regarding their equality
      */
@@ -82,7 +77,6 @@ public class Vector {
     /**
      * for our comfortable
      * check if its the zero point
-     *
      * @param p point to check
      */
     public static void isZero(Point3D p) {
@@ -93,7 +87,6 @@ public class Vector {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override
@@ -105,7 +98,6 @@ public class Vector {
 
     /**
      * this function implements subtraction between two vectors
-     *
      * @param v= vector
      * @return the result of the subtraction as a vector
      */
@@ -115,7 +107,6 @@ public class Vector {
 
     /**
      * this function implements addition between two vectors
-     *
      * @param v= vector
      * @return the result of the addition as a vector
      */
@@ -125,7 +116,6 @@ public class Vector {
 
     /**
      * this function implements multiplication of a vector in scalar
-     *
      * @param s= scalar
      * @return= the result as a vector
      */
@@ -137,7 +127,6 @@ public class Vector {
 
     /**
      * this function calculates the length squared of a vector
-     *
      * @return the length squared
      */
     public double lengthSquared() {
@@ -149,7 +138,6 @@ public class Vector {
 
     /**
      * this function calculates the length of a vector
-     *
      * @return the length
      */
     public double length() {
@@ -158,7 +146,6 @@ public class Vector {
 
     /**
      * this function calculates the value of a dot product of two vectors
-     *
      * @param v= vector
      * @return the value of a dot product
      */
@@ -171,7 +158,6 @@ public class Vector {
 
     /**
      * this function calculates the value of a cross product of two vectors
-     *
      * @param v= vector
      * @return the value of a cross product
      */
@@ -183,7 +169,6 @@ public class Vector {
 
     /**
      * this function normalize a vector
-     *
      * @return the vector after normalize
      */
     public Vector normalize() {
@@ -196,7 +181,6 @@ public class Vector {
 
     /**
      * this function normalize a vector
-     *
      * @return the normalize vector
      */
     public Vector normalized() {

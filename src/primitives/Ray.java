@@ -10,9 +10,11 @@ import static primitives.Util.isZero;
  * this class represents a ray
  */
 public class Ray {
+    private static final double DELTA = 0.1;
+
     //fields
-    private Vector dir;
-    private Point3D _p0;
+    private Vector dir; //vector represents the direction of the ray
+    private Point3D _p0; //point represent the initial point of the ray
 
     /**
      * constructor with two arguments
@@ -32,6 +34,25 @@ public class Ray {
         this._p0 = new Point3D(r._p0);
         this.dir = new Vector(r.dir);
     }
+
+    /**
+     * this function create a ray that it's initial point start after a "delta" distance
+     * @param point the initial point of the ray
+     * @param direction the direction of the ray
+     * @param normal vector that is normal to the ray
+     * this function help for checking intersection point in advenced level of the project
+     *we adding the "delta" distance in the direction of the normal, the reason is to avoid the ray from being intersected with itself
+     */
+    public Ray(Point3D point, Vector direction, Vector normal) {
+        //point + normal.scale(±DELTA)
+        this.dir = new Vector(direction).normalized();
+
+        double nv = normal.dotProduct(direction);
+
+        Vector normalDelta = normal.scale((nv > 0 ? DELTA : -DELTA));
+        this._p0 = point.add(normalDelta);
+    }
+
 
     /**
      * get method for the point field

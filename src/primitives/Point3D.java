@@ -9,16 +9,15 @@ import java.util.Objects;
  */
 public class Point3D {
     //fields
-    private Coordinate c1;
-    private Coordinate c2;
-    private Coordinate c3;
+    private Coordinate c1;//coordinate in the space
+    private Coordinate c2;//coordinate in the space
+    private Coordinate c3;//coordinate in the space
 
     //zero point
     public final static Point3D ZERO = new Point3D(0.0, 0.0, 0.0);
 
     /**
      * constructor with three arguments
-     *
      * @param _c1= coordinate
      * @param _c2= coordinate
      * @param _c3= coordinate
@@ -31,10 +30,9 @@ public class Point3D {
 
     /**
      * constructor with three arguments
-     *
-     * @param d1= double value
-     * @param d2= double value
-     * @param d3= double value
+     * @param d1 double value
+     * @param d2 double value
+     * @param d3 double value
      */
     public Point3D(double d1, double d2, double d3) {
         this(new Coordinate(d1), new Coordinate(d2), new Coordinate(d3));
@@ -42,8 +40,7 @@ public class Point3D {
 
     /**
      * copy constructor
-     *
-     * @param p= an existing point
+     * @param p an existing point
      */
     public Point3D(Point3D p) {
         this.c1 = p.c1;
@@ -53,7 +50,6 @@ public class Point3D {
 
     /**
      * get method for the coordinate c1 field
-     *
      * @return the value of the coordinate c1 field
      */
     public Coordinate getC1() {
@@ -62,7 +58,6 @@ public class Point3D {
 
     /**
      * get method for the coordinate c2 field
-     *
      * @return the value of the coordinate c2 field
      */
     public Coordinate getC2() {
@@ -71,7 +66,6 @@ public class Point3D {
 
     /**
      * get method for the coordinate c3 field
-     *
      * @return the value of the coordinate c3 field
      */
     public Coordinate getC3() {
@@ -80,7 +74,6 @@ public class Point3D {
 
     /**
      * get method for the zero field
-     *
      * @return the value of the zero field
      */
     public static Point3D getZERO() {
@@ -89,7 +82,6 @@ public class Point3D {
 
     /**
      * implements addition of a vector to a point
-     *
      * @param vector= vector we want to add
      * @return the result of the addition as a new point
      */
@@ -103,7 +95,6 @@ public class Point3D {
 
     /**
      * implements subtraction two points
-     *
      * @param p= point we want to sub
      * @return the result of the subtraction as a vector
      */
@@ -116,7 +107,6 @@ public class Point3D {
 
     /**
      * this function calculates the distance squared between two points
-     *
      * @param p1= point
      * @return the distance squared
      */
@@ -128,7 +118,6 @@ public class Point3D {
 
     /**
      * this function calculates the distance between two points
-     *
      * @param p1= point
      * @return the distance
      */
@@ -138,7 +127,6 @@ public class Point3D {
 
     /**
      * implement equal method(comparing)
-     *
      * @param o Object
      * @return true or false value regarding their equality
      */
@@ -154,7 +142,6 @@ public class Point3D {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override

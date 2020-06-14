@@ -20,4 +20,11 @@ public interface LightSource {
      */
     public Vector getL(Point3D p);
 
+    /**
+     * this method calculate the distance from the light source to the intersected point
+     * @param point the intersected point
+     * @return the distance from the light source to the intersected point
+     */
+    public double getDistance(Point3D point);
+
 }

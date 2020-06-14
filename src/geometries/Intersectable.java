@@ -33,8 +33,20 @@ public interface Intersectable {
             this.point = point;
         }
 
+        /**
+         * get method for the point field
+         * @return the value of the point field
+         */
         public Point3D getPoint() {
             return point;
+        }
+
+        /**
+         * get method for the geometry field
+         * @return the value of the geometry field
+         */
+        public Geometry getGeometry() {
+            return geometry;
         }
 
         /**

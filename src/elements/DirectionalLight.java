@@ -10,7 +10,7 @@ import primitives.Vector;
  */
 public class DirectionalLight extends Light implements LightSource {
     //field
-    protected Vector direction;
+    protected Vector direction; //the direction of the light
 
     /**
      * constructor to the directional light
@@ -40,5 +40,14 @@ public class DirectionalLight extends Light implements LightSource {
     @Override
     public Vector getL(Point3D p) {
         return direction;
+    }
+
+    /**
+     * this method calculate the distance from the light source to the intersected point
+     * @param point the intersected point
+     * @return the distance from the light source to the intersected point
+     */
+    public double getDistance(Point3D point){
+        return Double.POSITIVE_INFINITY;
     }
 }
