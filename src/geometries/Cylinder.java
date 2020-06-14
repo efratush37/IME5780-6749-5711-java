@@ -13,7 +13,7 @@ import static primitives.Util.isZero;
  */
 public class Cylinder extends Tube {
     //field
-    private double _height;
+    private double _height; //the height of the cylinder
 
     /**
      * @param m the value of the material of the cylinder
@@ -65,7 +65,6 @@ public class Cylinder extends Tube {
 
     /**
      * get method for the height field
-     *
      * @return the value of the height field
      */
     public double get_height() {
@@ -75,7 +74,6 @@ public class Cylinder extends Tube {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override
@@ -87,7 +85,6 @@ public class Cylinder extends Tube {
 
     /**
      * returns the normal to the cylinder
-     *
      * @param point= the point
      * @return= the normal to the cylinder
      */

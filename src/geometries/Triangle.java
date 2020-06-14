@@ -57,7 +57,6 @@ public class Triangle extends Polygon {
 
     /**
      * to string method
-     *
      * @return description of an object
      */
     @Override

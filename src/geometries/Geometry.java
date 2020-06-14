@@ -12,9 +12,9 @@ import primitives.Vector;
  */
 // refactoring to an abstract class represents geometries
 public abstract class Geometry implements Intersectable {
- //fields
-    protected Color emission;
-    protected Material material;
+    //fields
+    protected Color emission; //the emission color of a geometry
+    protected Material material; //the material that the geometry is made of
 
     /**
      * a constructor to the geometry

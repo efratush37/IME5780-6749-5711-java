@@ -14,12 +14,11 @@ import static primitives.Util.isZero;
  */
 public class Plane extends Geometry {
     //fields
-    private Point3D _p;
-    private Vector _normal;
+    private Point3D _p; //point on the plane
+    private Vector _normal; //the normal of the plane
 
     /**
      * constructor with three arguments
-     *
      * @param _p1= point
      * @param _p2= point
      * @param _p3= point
@@ -67,7 +66,6 @@ public class Plane extends Geometry {
 
     /**
      * get method for the point field
-     *
      * @return the value of the point field
      */
     public Point3D get_p() {
@@ -76,7 +74,6 @@ public class Plane extends Geometry {
 
     /**
      * get method for the normal field
-     *
      * @return the value of the normal field
      */
     public Vector get_normal() {
@@ -85,7 +82,6 @@ public class Plane extends Geometry {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override
@@ -98,7 +94,6 @@ public class Plane extends Geometry {
 
     /**
      * this function returns the normal
-     *
      * @return the normal of the plane
      */
     public Vector getNormal() {
@@ -107,8 +102,7 @@ public class Plane extends Geometry {
 
     /**
      * returns the normal to the cylinder
-     *
-     * @param p= point of the object
+     * @param p point of the object
      * @return the normal to the plane
      */
     @Override
@@ -120,7 +114,7 @@ public class Plane extends Geometry {
     /**
      * this function calculate the intersections points
      * (refactoring, returns list of geo points instead of regular points)
-     * @param ray= the ray thrown toward the geometry
+     * @param ray the ray thrown toward the geometry
      * @return list of geo points created by the intersection between the ray and the plane
      */
     @Override

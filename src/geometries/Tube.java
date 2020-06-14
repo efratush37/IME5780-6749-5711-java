@@ -11,7 +11,7 @@ import static primitives.Util.isZero;
  */
 public class Tube extends RadialGeometry {
     //field
-    private Ray _axisRay;
+    private Ray _axisRay; //the ray of the tube
 
     /**
      * constructor with two arguments
@@ -48,7 +48,6 @@ public class Tube extends RadialGeometry {
 
     /**
      * get method for the ray field
-     *
      * @return the value of the ray field
      */
     public Ray get_axisRay() {
@@ -57,7 +56,6 @@ public class Tube extends RadialGeometry {
 
     /**
      * get method for the radius field
-     *
      * @return the value of the radius field
      */
     @Override
@@ -67,7 +65,6 @@ public class Tube extends RadialGeometry {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override
@@ -79,7 +76,6 @@ public class Tube extends RadialGeometry {
 
     /**
      * returns the normal to the tube
-     *
      * @param p= point of the object
      * @return the normal to the tube
      */

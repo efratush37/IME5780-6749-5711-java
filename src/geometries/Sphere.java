@@ -12,7 +12,7 @@ import static primitives.Util.alignZero;
  */
 public class Sphere extends RadialGeometry {
     //field
-    private Point3D _center;
+    private Point3D _center; //the center point of the sphere
 
     /**
      * constructor with two arguments
@@ -49,7 +49,6 @@ public class Sphere extends RadialGeometry {
 
     /**
      * get method for the radius field
-     *
      * @return the value of the radius field
      */
     @Override
@@ -59,7 +58,6 @@ public class Sphere extends RadialGeometry {
 
     /**
      * get method for the center point field
-     *
      * @return the value of the center point field
      */
     public Point3D get_center() {
@@ -68,7 +66,6 @@ public class Sphere extends RadialGeometry {
 
     /**
      * implement to string method
-     *
      * @return string describes the object
      */
     @Override
@@ -80,7 +77,6 @@ public class Sphere extends RadialGeometry {
 
     /**
      * returns the normal to the sphere
-     *
      * @param p= point of the object
      * @return the normal to the sphere
      */
@@ -123,6 +119,4 @@ public class Sphere extends RadialGeometry {
         else
             return List.of(new GeoPoint(this,ray.getPoint(t2)));
     }
-
-
 }

@@ -6,21 +6,41 @@ package primitives;
  */
 public class Material {
     //fields
-    double kD;
-    double kS;
-    int nShininess;
+    double kD; //material attenuation coefficient
+    double kS; //material attenuation coefficient
+    int nShininess; //glitter coefficient of the material
+    double _kT;//transparency coefficient
+    double _kR;//reflection coefficient
+
+
 
     /**
      * a constructor to the material
      * @param kd material attenuation coefficient
      * @param ks material attenuation coefficient
      * @param nshininess glitter coefficient of the material
+     *  set the kT and the kR fields with default values using the other constructor
      */
     public Material(double kd, double ks, int nshininess) {
+        this(kd, ks,nshininess, 0,0);
+    }
+
+    /**
+     * constructor with five arguments for all the coefficients of the material
+     * @param kt transparency coefficient
+     * @param kr reflection coefficient
+     * @param kd material attenuation coefficient
+     * @param ks material attenuation coefficient
+     * @param nshininess glitter coefficient of the material
+     */
+    public Material(double kd, double ks, int nshininess, double kt, double kr){
         this.kD = kd;
         this.kS = ks;
         this.nShininess = nshininess;
+        this._kT=kt;
+        this._kR=kr;
     }
+
 
     /**
      * get method for the Kd field
@@ -46,4 +66,20 @@ public class Material {
         return nShininess;
     }
 
+    /**
+     * get method for the reflaction coefficient field
+     * @return the value of the reflaction coefficient of the material
+     */
+
+    public double get_kR() { return _kR; }
+
+    /**
+     * get method for the transparency coefficient field
+     * @return the value of the transparency coefficient of the material
+     */
+    public double get_kT() {
+        return _kT;
+    }
 }
+
+

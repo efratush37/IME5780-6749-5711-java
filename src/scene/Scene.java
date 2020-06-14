@@ -17,17 +17,17 @@ import java.util.List;
  */
 public class Scene {
     //fields
-    private String _name;
-    private Color _background;
-    private AmbientLight _ambientLight;
-    private Geometries _geometries;
-    private Camera _camera;
-    private double _distance;
-    private List<LightSource> _lights; //collection of lights sources
+    private String _name; //the name of the scene
+    private Color _background; //the background of the scene
+    private AmbientLight _ambientLight; //the ambient light of the scene
+    private Geometries _geometries; //the geometries collection of the scene
+    private Camera _camera; //the camera of the scene
+    private double _distance; //the distance of the view plane from the camera of the scene
+    private List<LightSource> _lights; //the collection of lights sources of the scene
 
     /**
      * constructor for the scene
-     * @param name= the name of the scene
+     * @param name the name of the scene
      */
     public Scene(String name) {
         this._name = name;
@@ -93,10 +93,8 @@ public class Scene {
 
     /**
      * set method for the background color field
-     *
      * @param _background= the value of the background color
      */
-
     public void set_background(Color _background) {
         this._background = _background;
     }
@@ -144,5 +142,4 @@ public class Scene {
             this._lights.add(l);
         }
     }
-
 }

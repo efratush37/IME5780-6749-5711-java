@@ -13,7 +13,7 @@ import static java.lang.Math.max;
  */
 public class SpotLight extends PointLight {
     //field
-    protected Vector direction;
+    protected Vector direction; //the direction of the spot light
 
     /**
      * @param color the color of the light source

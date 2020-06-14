@@ -13,7 +13,7 @@ import primitives.Vector;
 //an abstract class
 public abstract class RadialGeometry extends Geometry {
     //field
-    public double _radius;
+    public double _radius; //radius of the radial geometries
 
     /**
      * copy constructor with one argument

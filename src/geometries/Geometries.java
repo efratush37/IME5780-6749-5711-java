@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Geometries implements Intersectable {
     //field
-    private List<Intersectable> listOfGeo = new ArrayList<>();
+    private List<Intersectable> listOfGeo = new ArrayList<>(); //collection of geometries holds in a list
 
     /**
      * an empty constructor
@@ -34,7 +34,7 @@ public class Geometries implements Intersectable {
     }
 
     /**
-     *
+     * this function represents adding a geometry to the list holdes the collection
      * @param geometries= geometries needed to be add to the collection
      */
     public void add(Intersectable... geometries) {

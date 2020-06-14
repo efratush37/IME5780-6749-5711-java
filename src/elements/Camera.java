@@ -8,8 +8,8 @@ import static primitives.Util.isZero;
 
 public class Camera {
     //fields
-    Point3D p0;
-    Vector Vup, Vright, Vto;
+    Point3D p0; //the position point of the camera
+    Vector Vup, Vright, Vto; //the vectors represents the direction of observation of the camera
 
     /**
      * a constructor for the camera element
@@ -18,7 +18,6 @@ public class Camera {
      * @param Vup= vector of the camera axises
      */
     public Camera(Point3D p0, Vector Vto, Vector Vup) {
-
         //if the the vectors are not orthogonal, throw exception.
         if (Vup.dotProduct(Vto) != 0)
             throw new IllegalArgumentException("the vectors must be orthogonal");
@@ -28,12 +27,10 @@ public class Camera {
         this.Vup = Vup.normalized();
 
         Vright = this.Vto.crossProduct(this.Vup).normalize();
-
     }
 
     /**
      * get method for the point of the position of the camera field
-     *
      * @return the value of the position field
      */
     public Point3D getp0() {
@@ -42,7 +39,6 @@ public class Camera {
 
     /**
      * get method for the 'Right' vector field
-     *
      * @return the value of the vector field
      */
     public Vector getVright() {
@@ -51,7 +47,6 @@ public class Camera {
 
     /**
      * get method for the 'To' vector field
-     *
      * @return the value of the vector field
      */
     public Vector getVto() {
@@ -60,7 +55,6 @@ public class Camera {
 
     /**
      * get method for the 'Up' vector field
-     *
      * @return the value of the vector field
      */
     public Vector getVup() {
