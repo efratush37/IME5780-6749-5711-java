@@ -9,12 +9,15 @@ import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
 import geometries.Intersectable.GeoPoint;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
 /**
  * Unit tests for Geometries.Geometries class
+ *
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class GeometriesTests {
