@@ -112,7 +112,13 @@ public class Render {
 
             //calculating the diffiuse and rhe specular influences
             if (sign(nl) == sign(nv)) {
-                double ktr = transparency(lightSource, l, n, p);
+                List<Ray> listRay= null;
+                for (int i = 0; i < IMwr.getNy(); i++) {
+                    for (int j = 0; j < IMwr.getNx(); j++) {
+                      listRay= scene.get_camera().constructRayBeamThroughPixel(IMwr.getNx(), IMwr.getNy(),j,i,
+                              scene.get_distance(),IMwr.getWidth(),IMwr.getHeight(),2,81);
+                    }}
+                double ktr = transparency(lightSource, p, listRay);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color ip = lightSource.getIntensity(p.getPoint()).scale(ktr);
                     color = color.add(
@@ -232,30 +238,37 @@ public class Render {
      * this function calculate the influence of shadows
      *
      * @param ls the light source that illuminates the geometry
-     * @param l  the vector from the light source
-     * @param n  the normal vector to the intersected point
      * @param gp the intersected point
+     * @param listray a list of rays represents a beam
      * @return the level of the transparent influence on the objects
      */
-    private double transparency(LightSource ls, Vector l, Vector n, GeoPoint gp) {
-        Vector lightDirection = l.scale(-1);
-        Vector delta = n.scale(n.dotProduct(lightDirection) > 0 ? DELTA : -DELTA);
-
-        Ray lightRay = new Ray(gp.getPoint(), lightDirection, n);
-        List<GeoPoint> intersections = scene.get_geometries().findIntsersections(lightRay);
-        if (intersections == null) {
-            return 1.0;
-        }
-        double lightDistance = ls.getDistance(gp.getPoint());
-        double ktr = 1.0;
-        for (GeoPoint geoP : intersections) {
-            if (alignZero(geoP.getPoint().distance(gp.getPoint()) - lightDistance) <= 0)
-                ktr = ktr * geoP.getGeometry().getMaterial().get_kT();
-            if (ktr < MIN_CALC_COLOR_K) {
-                return 0.0;
+    private double transparency(LightSource ls, GeoPoint gp, List<Ray> listray) {
+        double result=0.0;
+        double ktr=0.0;
+        for(Ray r : listray)
+        {
+            List<GeoPoint> intersections = scene.get_geometries().findIntsersections(r);
+            if (intersections == null) {
+                result= result + 1.0;
             }
+            else
+            {
+                double lightDistance = ls.getDistance(gp.getPoint());
+                ktr= 1.0;
+                for (GeoPoint geoP : intersections) {
+                    if (alignZero(geoP.getPoint().distance(gp.getPoint()) - lightDistance) <= 0)
+                        ktr = ktr * geoP.getGeometry().getMaterial().get_kT();
+                    if (ktr < MIN_CALC_COLOR_K) {
+                        ktr= 0.0;
+                        break;
+                    }
+                }
+            }
+            result= result+ktr;
         }
-        return ktr;
+
+        double average= result/listray.size();
+        return average;
     }
 
 
@@ -284,9 +297,9 @@ public class Render {
     }
 
     /**
-     * this function calculates the closest intersection of the object to the camera
+     * this function calculates the closest intersection
      *
-     * @param ray the ray constructed from the camera to the geometry
+     * @param ray the ray constructed
      * @return the closest intersection point
      */
     private GeoPoint findCLosestIntersection(Ray ray) {
@@ -325,6 +338,7 @@ public class Render {
                 }
             }
         }
+
     }
 
     /**

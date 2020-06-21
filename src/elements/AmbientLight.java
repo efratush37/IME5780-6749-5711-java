@@ -10,7 +10,7 @@ import primitives.Color;
 public class AmbientLight extends Light {
     /**
      * constructor for the ambient light
-     * @param IA the color of the ambirnt light
+     * @param IA the color of the ambient light
      * @param KA the coefficient of the light
      */
     public AmbientLight(Color IA, double KA){

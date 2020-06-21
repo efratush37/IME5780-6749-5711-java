@@ -12,7 +12,8 @@ public class Material {
     double _kT;//transparency coefficient
     double _kR;//reflection coefficient
 
-
+    //kt=1 means perfect transparency
+    //kr=1 means perfect
 
     /**
      * a constructor to the material

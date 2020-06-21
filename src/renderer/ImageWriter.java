@@ -15,7 +15,7 @@ import javax.imageio.*;
  * responsible of holding image related parameters of View Plane - pixel matrix
  * size and resolution
  *
- * @author Dan
+ * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
  */
 public class ImageWriter {
     private double _imageWidth, _imageHeight;
@@ -32,7 +32,7 @@ public class ImageWriter {
     /**
      * Image Writer constructor accepting image name and View Plane parameters,
      *
-     * @param imageName the name of jpeg file
+     * @param imageName the name of png file
      * @param width     View Plane width in size units
      * @param height    View Plane height in size units
      * @param nX        amount of pixels by Width
