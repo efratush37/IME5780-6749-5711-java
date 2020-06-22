@@ -127,7 +127,7 @@ public class Render {
             }
         }
 
-        //calculating the reflection influence
+        //calculating the reflection influence nnnn
         double kr = p.getGeometry().getMaterial().get_kR();
         double kkr = k * kr;
         if (kkr > MIN_CALC_COLOR_K) {
