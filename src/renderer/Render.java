@@ -7,6 +7,7 @@ import geometries.Intersectable;
 import primitives.*;
 import scene.Scene;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -112,12 +113,10 @@ public class Render {
 
             //calculating the diffiuse and rhe specular influences
             if (sign(nl) == sign(nv)) {
-                List<Ray> listRay= null;
-                for (int i = 0; i < IMwr.getNy(); i++) {
-                    for (int j = 0; j < IMwr.getNx(); j++) {
-                      listRay= scene.get_camera().constructRayBeamThroughPixel(IMwr.getNx(), IMwr.getNy(),j,i,
-                              scene.get_distance(),IMwr.getWidth(),IMwr.getHeight(),2,81);
-                    }}
+                Ray main=new Ray(p.getPoint(), l);
+                LinkedList<Ray> listRay = scene.get_camera().constructRayBeamThroughPixel(ray,
+                       p, 300, 50, scene.get_camera().getVup(), scene.get_camera().getVright());
+
                 double ktr = transparency(lightSource, p, listRay);
                 if (ktr * k > MIN_CALC_COLOR_K) {
                     Color ip = lightSource.getIntensity(p.getPoint()).scale(ktr);
@@ -236,38 +235,37 @@ public class Render {
 
     /**
      * this function calculate the influence of shadows
+     * refactoring so that the function will work with a beam of rays or one way as wish
      *
-     * @param ls the light source that illuminates the geometry
-     * @param gp the intersected point
+     * @param ls      the light source that illuminates the geometry
+     * @param gp      the intersected point
      * @param listray a list of rays represents a beam
      * @return the level of the transparent influence on the objects
      */
     private double transparency(LightSource ls, GeoPoint gp, List<Ray> listray) {
-        double result=0.0;
-        double ktr=0.0;
-        for(Ray r : listray)
-        {
+        double result = 0.0;
+        double ktr = 0.0;
+        //going over the list for calculating the transparency as an average of the influence of each ray
+        for (Ray r : listray) {
             List<GeoPoint> intersections = scene.get_geometries().findIntsersections(r);
             if (intersections == null) {
-                result= result + 1.0;
-            }
-            else
-            {
+                result = result + 1.0;
+            } else {
                 double lightDistance = ls.getDistance(gp.getPoint());
-                ktr= 1.0;
+                ktr = 1.0;
                 for (GeoPoint geoP : intersections) {
                     if (alignZero(geoP.getPoint().distance(gp.getPoint()) - lightDistance) <= 0)
                         ktr = ktr * geoP.getGeometry().getMaterial().get_kT();
                     if (ktr < MIN_CALC_COLOR_K) {
-                        ktr= 0.0;
+                        ktr = 0.0;
                         break;
                     }
                 }
             }
-            result= result+ktr;
+            result = result + ktr;
         }
 
-        double average= result/listray.size();
+        double average = result / listray.size();
         return average;
     }
 
@@ -347,4 +345,5 @@ public class Render {
     public void writeToImage() {
         IMwr.writeToImage();
     }
+
 }
