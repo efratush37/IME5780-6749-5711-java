@@ -115,27 +115,28 @@ public class Camera {
 
     /**
      * this function calculate list of rays would construct from the intersected point to the light source position area
-     * @param MainRay the opposite vector to the ray constructed from the light source to the point intersected
-     * @param p the starting point of the ray constructed from the light source to the point intersected
+     *
+     * @param MainRay     the opposite vector to the ray constructed from the light source to the point intersected
+     * @param p           the starting point of the ray constructed from the light source to the point intersected
      * @param radiusRange the wanted range for creating rays
-     * @param numOfRays the wanted num of rays need to be construct
-     * @param vup vector of the camera axises
-     * @param vright vector of the camera axises
+     * @param numOfRays   the wanted num of rays need to be construct
+     * @param vup         vector of the camera axises
+     * @param vright      vector of the camera axises
      * @return list of rays would construct from the intersected point to the light source position area
      */
-    public LinkedList<Ray> constructRayBeamThroughPixel(Ray MainRay, Intersectable.GeoPoint p, double radiusRange, int numOfRays, Vector vup, Vector vright) {
-        if (isZero(MainRay.get_p0().distance(p.getPoint()))) {
+    public static LinkedList<Ray> constructRayBeamThroughPixel(Ray MainRay, Point3D p, double radiusRange, int numOfRays, Vector vup, Vector vright) {
+        if (isZero(MainRay.get_p0().distance(p))) {
             throw new IllegalArgumentException("distance can't be 0");
         }
         double[] randomNumbers = rnd.doubles(numOfRays * 2, radiusRange * (-1), radiusRange).distinct().toArray();
         LinkedList<Ray> rays = new LinkedList<>();
         rays.add(MainRay);
-        double minimum=Math.min(numOfRays, randomNumbers.length-1);
-        for (int i=0; i<minimum; i++){
-            Point3D pxy=p.getPoint();
-            if(randomNumbers[i]!=0 && randomNumbers[i+1]!=0){
-                pxy=pxy.add(vup.scale(randomNumbers[i])).add(vright.scale(randomNumbers[i+1]));
-                rays.add(new Ray(MainRay.get_p0(), pxy.subtract(MainRay.get_p0()).normalize(),p.getGeometry().getNormal(p.getPoint())));
+        double minimum = Math.min(numOfRays, randomNumbers.length - 1);
+        for (int i = 0; i < minimum; i++) {
+            Point3D pxy = p;
+            if (randomNumbers[i] != 0 && randomNumbers[i + 1] != 0) {
+                pxy = pxy.add(vup.scale(randomNumbers[i])).add(vright.scale(randomNumbers[i + 1]));
+                rays.add(new Ray(MainRay.get_p0(), pxy.subtract(MainRay.get_p0()).normalize()));
             }
         }
         return rays;

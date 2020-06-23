@@ -1,15 +1,21 @@
 package renderer;
 
+import elements.DirectionalLight;
 import elements.LightSource;
+import elements.PointLight;
+import geometries.Geometry;
 import geometries.Intersectable.GeoPoint;
 import elements.Camera;
 import geometries.Intersectable;
+import geometries.Plane;
 import primitives.*;
 import scene.Scene;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import static elements.Camera.constructRayBeamThroughPixel;
 import static primitives.Util.alignZero;
 
 /**
@@ -21,9 +27,14 @@ public class Render {
     //fields
     private ImageWriter IMwr; //an image writer object for creating scene
     private Scene scene; //the scene includes all the objects
-    private static final double DELTA = 0.1; //minimal size to add to the shadow rays in order to avoid from intersected with the geometry
+    //private static final double DELTA = 0.1; //minimal size to add to the shadow rays in order to avoid from intersected with the geometry
     private static final int MAX_CALC_COLOR_LEVEL = 10; //the maximum level can be afford for stopping the recursion
     private static final double MIN_CALC_COLOR_K = 0.001; //the minimum level can be afford for stopping the recursion
+    private int NUM_OF_RAYS = 1;  // number of rays for soft shadow feature
+
+    public void setNumOfRays(int numOfRays) {
+        this.NUM_OF_RAYS = numOfRays;
+    }
 
     /**
      * a constructor for the Render object
@@ -43,7 +54,6 @@ public class Render {
      */
     public void renderImage() {
         Camera camera = scene.get_camera();
-        Intersectable geometries = scene.get_geometries();
         java.awt.Color background = scene.get_background().getColor();
         Double distance = scene.get_distance();
 
@@ -52,15 +62,14 @@ public class Render {
         Double width = IMwr.getWidth();
         Double height = IMwr.getHeight();
 
-
+        Ray ray;
+        GeoPoint closestpoint;
         for (int i = 0; i < nX; i++) {
             for (int j = 0; j < nY; j++) {
-                Ray ray = camera.constructRayThroughPixel(nX, nY, j, i, distance, width, height);
-
-                List<GeoPoint> intersectionPoints = geometries.findIntsersections(ray);
-                GeoPoint closestpoint = findCLosestIntersection(ray);
-                if (intersectionPoints == null) {
-                    IMwr.writePixel(j, i, scene.get_background().getColor());
+                ray = camera.constructRayThroughPixel(nX, nY, j, i, distance, width, height);
+                closestpoint = findCLosestIntersection(ray);
+                if (closestpoint == null) {
+                    IMwr.writePixel(j, i, background);
                 } else {
                     IMwr.writePixel(j, i, (calcColor(closestpoint, ray)).getColor());
                 }
@@ -92,46 +101,46 @@ public class Render {
      * @return the color of the point for calculating the color for the pixel
      */
     private Color calcColor(GeoPoint p, Ray ray, int level, double k) {
-        if (level == 0 || k < MIN_CALC_COLOR_K)
-            return Color.BLACK;
         if (level == 1) {
             return Color.BLACK;
         }
 
         Color color = p.getGeometry().getEmission();
-        Vector v = p.getPoint().subtract(scene.get_camera().getp0()).normalize();
-        Vector n = p.getGeometry().getNormal(p.getPoint());
-        Material m = p.getGeometry().getMaterial();
-        int shine = m.getnShininess();
-        double kd = m.getkD();
-        double ks = m.getkS();
+        Geometry geometry = p.getGeometry();
+
+        Point3D point = p.getPoint();
+        Vector v = point.subtract(scene.get_camera().getp0()).normalize();
+        Vector n = geometry.getNormal(point).normalize();
+        double kd = geometry.getMaterial().getkD();
+        double ks = geometry.getMaterial().getkS();
+        int shine = geometry.getMaterial().getnShininess();
+
+        List<Ray> beam;
+        List<LightSource> allLights = scene.get_lights();
         //regarding the Phong model, calculating the color by the influence of all the light sources on the point
-        for (LightSource lightSource : scene.get_lights()) {
-            Vector l = lightSource.getL(p.getPoint());
-            double nl = alignZero(n.dotProduct(l));
-            double nv = alignZero(n.dotProduct(v));
+        if (allLights != null) {
+            for (LightSource lightSource : allLights) {
+                Vector l = lightSource.getL(point).normalize();
 
-            //calculating the diffiuse and rhe specular influences
-            if (sign(nl) == sign(nv)) {
-                Ray main=new Ray(p.getPoint(), l);
-                LinkedList<Ray> listRay = scene.get_camera().constructRayBeamThroughPixel(ray,
-                       p, 300, 50, scene.get_camera().getVup(), scene.get_camera().getVright());
+                double ln = alignZero(n.dotProduct(l));
+                double nv = alignZero(n.dotProduct(v));
+                beam = constructRayBeamThroughPixel(lightSource, l, n, p);
+                double ktr = transparency(lightSource, p, beam);
 
-                double ktr = transparency(lightSource, p, listRay);
-                if (ktr * k > MIN_CALC_COLOR_K) {
+                if (ln * nv > 0 && ktr * k > MIN_CALC_COLOR_K) {
                     Color ip = lightSource.getIntensity(p.getPoint()).scale(ktr);
                     color = color.add(
-                            calcDiffusive(kd, nl, ip),
-                            calcSpecular(ks, l, n, nl, v, shine, ip));
+                            calcDiffusive(kd, ln, ip),
+                            calcSpecular(ks, l, n, ln, v, shine, ip));
                 }
             }
         }
 
-        //calculating the reflection influence nnnn
+        //calculating the reflection influence
         double kr = p.getGeometry().getMaterial().get_kR();
         double kkr = k * kr;
         if (kkr > MIN_CALC_COLOR_K) {
-            Ray reflectedRay = constructReflectedRay(p.getPoint(), ray, n);
+            Ray reflectedRay = constructReflectedRay(point, ray, n);
             GeoPoint reflectedpoint = findCLosestIntersection(reflectedRay);
             if (reflectedpoint != null) {
                 color = color.add(calcColor(reflectedpoint, reflectedRay, level - 1, kkr).scale(kr));
@@ -142,7 +151,7 @@ public class Render {
         double kt = p.getGeometry().getMaterial().get_kT();
         double kkt = k * kt;
         if (kkt > MIN_CALC_COLOR_K) {
-            Ray refractedRay = constructRefractedRay(p.getPoint(), ray, n);
+            Ray refractedRay = constructRefractedRay(point, ray, n);
             GeoPoint refrectedPoint = findCLosestIntersection(refractedRay);
             if (refrectedPoint != null) {
                 color = color.add(calcColor(refrectedPoint, refractedRay, level - 1, kkt).scale(kt));
@@ -222,51 +231,14 @@ public class Render {
      */
     private Ray constructReflectedRay(Point3D pointGeo, Ray inRay, Vector n) {
         //𝒓=𝒗 −𝟐∙(𝒗∙𝒏)∙𝒏
-        Vector v = inRay.getDir();
+        Vector v, r;
+        v = inRay.getDir();
         double vn = v.dotProduct(n);
-
         if (vn == 0) {
             return null;
         }
-
-        Vector r = v.subtract(n.scale(2 * vn));
+        r = v.subtract(n.scale(2 * vn));
         return new Ray(pointGeo, r, n);
-    }
-
-    /**
-     * this function calculate the influence of shadows
-     * refactoring so that the function will work with a beam of rays or one way as wish
-     *
-     * @param ls      the light source that illuminates the geometry
-     * @param gp      the intersected point
-     * @param listray a list of rays represents a beam
-     * @return the level of the transparent influence on the objects
-     */
-    private double transparency(LightSource ls, GeoPoint gp, List<Ray> listray) {
-        double result = 0.0;
-        double ktr = 0.0;
-        //going over the list for calculating the transparency as an average of the influence of each ray
-        for (Ray r : listray) {
-            List<GeoPoint> intersections = scene.get_geometries().findIntsersections(r);
-            if (intersections == null) {
-                result = result + 1.0;
-            } else {
-                double lightDistance = ls.getDistance(gp.getPoint());
-                ktr = 1.0;
-                for (GeoPoint geoP : intersections) {
-                    if (alignZero(geoP.getPoint().distance(gp.getPoint()) - lightDistance) <= 0)
-                        ktr = ktr * geoP.getGeometry().getMaterial().get_kT();
-                    if (ktr < MIN_CALC_COLOR_K) {
-                        ktr = 0.0;
-                        break;
-                    }
-                }
-            }
-            result = result + ktr;
-        }
-
-        double average = result / listray.size();
-        return average;
     }
 
 
@@ -346,4 +318,76 @@ public class Render {
         IMwr.writeToImage();
     }
 
+    /**
+     * this function calculate the influence of shadows
+     * refactoring so that the function will work with a beam of rays or one way as wish
+     *
+     * @param light    the light source that illuminates the geometry
+     * @param geopoint the intersected point
+     * @return the level of the transparent influence on the objects
+     */
+    private double transparency(LightSource light, GeoPoint geopoint, List<Ray> beam) {
+        double result = 0.0, ktr;
+        double lightDistance = light.getDistance(geopoint.getPoint());
+        for (Ray lightRay : beam) {
+            List<GeoPoint> intersections = scene.get_geometries().findIntsersections(lightRay);
+            if (intersections == null) {
+                result += 1.0;
+            } else {
+                ktr = 1.0;
+                for (GeoPoint gp : intersections) {
+                    if (alignZero(gp.getPoint().distance(geopoint.getPoint()) - lightDistance) <= 0) {
+                        ktr *= gp.getGeometry().getMaterial().get_kT();
+                        if (ktr < MIN_CALC_COLOR_K) {
+                            ktr = 0.0;
+                            break;
+                        }
+                    }
+                }
+                result += ktr;
+            }
+        }
+        double sum = result / beam.size(); //
+        return sum;
+    }
+
+    public List<Ray> constructRayBeamThroughPixel(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
+        Vector centralLightDirection = l.scale(-1).normalize();
+        Point3D point = geopoint.getPoint();
+        Ray centralRay = new Ray(point, centralLightDirection, n);
+        List<Ray> beam = new LinkedList<Ray>();
+        beam.add(centralRay);
+
+        if(!(light instanceof PointLight)) {
+            return beam;
+        }
+
+        PointLight pointLight = (PointLight) light;
+        if (this.NUM_OF_RAYS > 1) {   // if soft shadows is enabled
+            Vector normalToCentralRay = new Vector(-centralLightDirection.getHead().getC2().get(), centralLightDirection.getHead().getC1().get(), 0).normalize();
+            Vector cross = normalToCentralRay.crossProduct(centralLightDirection).normalize();
+
+            double radius = pointLight.getRadius();
+            if (radius == 0d) {
+                return beam;
+            }
+
+            Point3D randomPoint, position = pointLight.getPosition();
+            Ray randomRay;
+            Vector randomDirection;
+            double rnd1, rnd2, upper = radius, lower = -radius; // upper and lower range to rand numbers in order to get random points in the circle
+
+            for (int i = 0; i < this.NUM_OF_RAYS; i++) {
+                do {
+                    rnd1 = Math.random() *(upper -lower + 1) + lower;
+                    rnd2 = Math.random() *(upper -lower + 1) + lower;
+                } while (Math.abs(rnd1 + rnd2) > radius); // check that we don't exceed from the circle
+                randomPoint = position.add(normalToCentralRay.scale(rnd1).add(cross.scale(rnd2))); // get the new point by adding the 2 vectors scaled by random numbers
+                randomDirection = randomPoint.subtract(point).normalize();  // vector from the point to the new random point
+                randomRay = new Ray(point, randomDirection, n); // the new ray shifted by delta from the shape
+                beam.add(randomRay);    // add the ray to the list
+            }
+        }
+        return beam;
+    }
 }
