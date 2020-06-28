@@ -1,9 +1,6 @@
 package geometries;
 
-import primitives.Color;
-import primitives.Material;
-import primitives.Point3D;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Geometries.Geometry class
@@ -15,33 +12,38 @@ public abstract class Geometry implements Intersectable {
     //fields
     protected Color emission; //the emission color of a geometry
     protected Material material; //the material that the geometry is made of
+    Box box;//the box of the geometry
 
     /**
      * a constructor to the geometry
      * puts default values for the fields
+     * @param b the box wrapped the geometry
      */
-    public Geometry() {
-        this(Color.BLACK);
+    public Geometry(Box b) {
+        this(Color.BLACK,b);
         this.material = new Material(0d, 0d, 0);
     }
 
     /**
      * a constructor with a paramater for the emission color of the geometry
      * @param emission the color of the geometry
+     * @param b the box wrapped the geometry
      * this constructor calls the constructor with 2 arguments and set the material with default values
      */
-    public Geometry(Color emission) {
-        this(emission, new Material(0d, 0d, 0));
+    public Geometry(Color emission, Box b) {
+        this(emission, new Material(0d, 0d, 0),b);
     }
 
     /**
      * a constructor with two arguments
      * @param emission the color of the geometry
      * @param material the material the geometry made of
+     * @param b the box wrapped the geometry
      */
-    public Geometry(Color emission, Material material) {
+    public Geometry(Color emission, Material material, Box b) {
         this.emission = emission;
         this.material = material;
+        this.box= b;
     }
 
     /**
@@ -67,4 +69,27 @@ public abstract class Geometry implements Intersectable {
      * @return the normal vector to the object
      */
     public abstract Vector getNormal(Point3D p);
+
+    /**
+     * this function finds the center of the box
+     * @return center of the box
+     */
+    public abstract Point3D getCenterPosition();
+
+    /**
+     * get method for the box field
+     * @return the box wrapped the geometry
+     */
+    @Override
+    public Box getBox() {
+        return box;
+    }
+
+    /**
+     * set method for the box field
+     * @param box the box wrapped the geometry
+     */
+    public void setBox(Box box) {
+        this.box = box;
+    }
 }

@@ -18,9 +18,22 @@ public abstract class RadialGeometry extends Geometry {
     /**
      * copy constructor with one argument
      * @param radius the radius of the object
+     * @param b the box wrap the geometry
      */
-    public RadialGeometry(double radius) {
+    public RadialGeometry(double radius, Box b) {
+        super(b);
         _radius = radius;
+    }
+
+    /**
+     * constructor with three arguments
+     * @param c the color of the geometry
+     * @param r the radius
+     * @param b the box wrap the geometry
+     */
+    public RadialGeometry(Color c, double r, Box b) {
+        super(c, b);
+        this._radius = r;
     }
 
     /**
@@ -28,9 +41,10 @@ public abstract class RadialGeometry extends Geometry {
      * @param c the color of the geometry
      * @param m the value of the material argument of the geometry
      * @param r the radius of the radial geometry
+     * @param b the box wrap the geometry
      */
-    public RadialGeometry(Color c, Material m, double r) {
-        super(c, m);
+    public RadialGeometry(Color c, Material m, double r, Box b) {
+        super(c, m, b);
         this._radius = r;
     }
 
@@ -39,6 +53,7 @@ public abstract class RadialGeometry extends Geometry {
      * @param r an existing radical geometry
      */
     public RadialGeometry(RadialGeometry r) {
+        super(r.getBox());
         this._radius = r._radius;
     }
 

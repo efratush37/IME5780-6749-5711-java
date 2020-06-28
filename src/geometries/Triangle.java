@@ -75,6 +75,9 @@ public class Triangle extends Polygon {
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
+        if(!IntersectedBox(ray))
+            return null;
+
         List<GeoPoint> intersections = _plane.findIntsersections(ray);
         if (intersections == null) return null;
 
@@ -96,6 +99,5 @@ public class Triangle extends Polygon {
 
         //they all have the same sign
         return ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0)) ? List.of(geoPoint) : null;
-
     }
 }

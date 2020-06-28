@@ -1,9 +1,12 @@
 elements
 geometries
+MiniProject2
 primitives
 renderer
 scene
 unittests.elements
 unittests.geometries
+unittests.miniProject
+unittests.miniProject2
 unittests.primitives
 unittests.renderer

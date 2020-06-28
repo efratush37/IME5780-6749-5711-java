@@ -45,10 +45,13 @@ public class Polygon extends Geometry {
      *                                  </ul>
      */
     public Polygon(Color emission, Material material, Point3D... vertices) {
-        super(emission, material);
+        super(emission, material, null);
         if (vertices.length < 3)
             throw new IllegalArgumentException("A polygon can't have less than 3 vertices");
         _vertices = List.of(vertices);
+        //for creating a box to the polygon
+        Box b= constructBox();
+        this.setBox(b);
         // Generate the plane according to the first three vertices and associate the
         // polygon with this plane.
         // The plane holds the invariant normal (orthogonal unit) vector to the polygon
@@ -85,6 +88,31 @@ public class Polygon extends Geometry {
     }
 
     /**
+     * constructing a box for a polygon
+     * @return box
+     */
+    private Box constructBox(){
+        //puts infinite values dor the fields
+        double x1= Double.POSITIVE_INFINITY;
+        double x2= Double.NEGATIVE_INFINITY;
+        double y1= Double.POSITIVE_INFINITY;
+        double y2= Double.NEGATIVE_INFINITY;
+        double z1= Double.POSITIVE_INFINITY;
+        double z2= Double.NEGATIVE_INFINITY;
+
+        for(Point3D p: _vertices){
+                if(p.getC1().get()<x1) x1= p.getC1().get();
+                if(p.getC1().get()>x2) x2= p.getC1().get();
+                if(p.getC2().get()<y1) y1= p.getC2().get();
+                if(p.getC2().get()>y2) y2= p.getC2().get();
+                if(p.getC3().get()<z1) z1= p.getC3().get();
+                if(p.getC3().get()>z2) z2= p.getC3().get();
+        }
+        return new Box(x1,x2,y1,y2,z1,z2);
+    }
+
+
+    /**
      * constructor withe the argument of color of the polygon
      * puts default value for the material argument
      * @param color the color of the polygon
@@ -114,6 +142,16 @@ public class Polygon extends Geometry {
     }
 
     /**
+     * this function returns the center point of the wrap box
+     * @return the center point of the wrap box
+     */
+    @Override
+    public Point3D getCenterPosition() {
+        Point3D c= _vertices.get(0);
+        return c;
+    }
+
+    /**
      * this function calculate the intersections points
      * (refactoring, returns list of geo points instead of regular points)
      * @param ray the ray thrown toward the geometry
@@ -121,6 +159,9 @@ public class Polygon extends Geometry {
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
+        if(!IntersectedBox(ray))
+            return null;
+
         List<GeoPoint> intersections = _plane.findIntsersections(ray);
         if (intersections == null) return null;
 
@@ -148,5 +189,15 @@ public class Polygon extends Geometry {
             g.geometry = this;
         }
         return intersections;
+    }
+
+    /**
+     * this function returns rather the box is intersected with the ray or not
+     * @param ray the constructed ray
+     * @return rather the box is intersected with the ray or not
+     */
+    @Override
+    public boolean IntersectedBox(Ray ray) {
+        return this.box.IntersectedBox(ray);
     }
 }

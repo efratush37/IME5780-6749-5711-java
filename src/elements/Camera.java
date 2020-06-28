@@ -1,10 +1,13 @@
 package elements;
 
-import geometries.Intersectable;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import geometries.*;
+import primitives.*;
+import geometries.Intersectable.GeoPoint;
 
+import renderer.ImageWriter;
+import scene.Scene;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;

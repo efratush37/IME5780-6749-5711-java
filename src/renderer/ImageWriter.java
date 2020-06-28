@@ -1,9 +1,15 @@
 package renderer;
 
+import elements.Camera;
+import geometries.Intersectable;
+import primitives.Ray;
+import scene.Scene;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,5 +117,49 @@ public class ImageWriter {
     public void writePixel(int xIndex, int yIndex, Color color) {
         _image.setRGB(xIndex, yIndex, color.getRGB());
     }
+
+
+
+    public static List<Intersectable.GeoPoint> miniProject(Scene s, ImageWriter IW){
+        miniProject(s, IW, 0);
+
+
+
+        List<Intersectable.GeoPoint> p = null;
+        return p;
+    }
+
+    public static List<Intersectable.GeoPoint> miniProject(Scene s, ImageWriter IW, int level){
+        List<Intersectable.GeoPoint> geoPoints = null;
+        if(level==7)
+            return geoPoints;
+        Scene scene= s;
+        Camera c = s.get_camera();
+        Intersectable geos= scene.get_geometries();
+        int nx= IW.getNx();
+        int rnx= (int)Math.pow(2,level);
+        int ny= IW.getNy();
+        int rny= (int)Math.pow(2,level);
+        double distance= scene.get_distance();
+        Ray ray=null;
+        List<Intersectable.GeoPoint> temp = null;
+        for(int i=0; i<rnx; i++)
+            for(int j=0; j<rny; j++){
+                ray= c.constructRayThroughPixel(rnx, rny, j, i, distance,IW.getWidth(), IW.getHeight());
+                temp= geos.findIntsersections(ray);
+                if(temp==null)
+                    break;
+
+
+
+            }
+
+
+
+
+
+        return geoPoints;
+    }
+
 
 }

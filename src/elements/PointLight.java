@@ -21,7 +21,7 @@ public class PointLight extends Light implements LightSource {
     protected double radius = 0d;
 
     /**
-     * @return
+     * @return radius
      */
     public double getRadius() {
         return radius;

@@ -28,15 +28,15 @@ public class GeometriesTests {
         Geometries geometries = new Geometries();
         List<GeoPoint> result;//refactoring to a list of geo points
 
-        // TC11: An empty collection of geometries
-        result = geometries.findIntsersections(new Ray(new Point3D(6, 6, 6), new Vector(1, 0, 0)));
-
-        assertNull("Wrong number of points", result);
-
         geometries.add(
                 new Sphere(1d, new Point3D(1, 0, 0)),
                 new Plane(new Point3D(0, 0, 2), new Point3D(2, 1, 2), new Point3D(2, 2, 2)),
                 new Plane(new Point3D(0, 0, -2), new Point3D(2, 1, -2), new Point3D(2, 2, -2)));
+
+        // TC11: An empty collection of geometries
+        result = geometries.findIntsersections(new Ray(new Point3D(6, 6, 6), new Vector(1, 0, 0)));
+
+        assertNull("Wrong number of points", result);
 
         // =============== Boundary Values Tests ==================
         // **** Group: do no intersects the geometries

@@ -3,6 +3,7 @@ package renderer;
 import elements.DirectionalLight;
 import elements.LightSource;
 import elements.PointLight;
+import geometries.Geometries;
 import geometries.Geometry;
 import geometries.Intersectable.GeoPoint;
 import elements.Camera;
@@ -32,9 +33,6 @@ public class Render {
     private static final double MIN_CALC_COLOR_K = 0.001; //the minimum level can be afford for stopping the recursion
     private int NUM_OF_RAYS = 1;  // number of rays for soft shadow feature
 
-    public void setNumOfRays(int numOfRays) {
-        this.NUM_OF_RAYS = numOfRays;
-    }
 
     /**
      * a constructor for the Render object
@@ -48,20 +46,33 @@ public class Render {
     }
 
     /**
+     * This function renders image's pixel color map from the scene included with
+     * the Renderer object
+     */
+    public void renderImage() {
+        renderImage(1);
+    }
+
+
+
+    /**
      * this function create the image pixel after pixel
      * (refactoring- now when we create the image, were going on a list of geo points)
      * (refactoring- now we use the findCLosestIntersection function instead of closest point)
+     *
+     * @param numRays numRays
      */
-    public void renderImage() {
+    public void renderImage(int numRays) {
         Camera camera = scene.get_camera();
         java.awt.Color background = scene.get_background().getColor();
         Double distance = scene.get_distance();
+        Intersectable listGeo = scene.get_geometries();
 
         int nX = IMwr.getNx();
         int nY = IMwr.getNy();
         Double width = IMwr.getWidth();
         Double height = IMwr.getHeight();
-
+/*
         Ray ray;
         GeoPoint closestpoint;
         for (int i = 0; i < nX; i++) {
@@ -75,6 +86,34 @@ public class Render {
                 }
             }
         }
+        */
+        final Pixel thePixel = new Pixel(nY, nX);
+
+        // Generate threads
+        Thread[] threads = new Thread[_threads];
+        for (int i = _threads - 1; i >= 0; --i) {
+            threads[i] = new Thread(() -> {
+                Pixel pixel = new Pixel();
+                while (thePixel.nextPixel(pixel)) {
+                    Ray ray = camera.constructRayThroughPixel(nX, nY, pixel.col, pixel.row, distance, width, height);
+                    List<GeoPoint> intersections= listGeo.findIntsersections(ray);
+                    if(intersections== null)
+                        IMwr.writePixel(pixel.col, pixel.row, background);
+                    else {
+                        GeoPoint closestPoint = getClosestPoint(intersections);
+                        IMwr.writePixel(pixel.col, pixel.row, calcColor(closestPoint,ray).getColor());
+                    }
+                }
+            });
+        }
+
+        // Start threads
+        for (Thread thread : threads) thread.start();
+
+        // Wait for all threads to finish
+        for (Thread thread : threads) try { thread.join(); } catch (Exception e) {}
+        if (_print) System.out.printf("\r100%%\n");
+
     }
 
     /**
@@ -168,6 +207,16 @@ public class Render {
      */
     private boolean sign(double val) {
         return (val > 0d);
+    }
+
+    /**
+     * this function change the hard coded number of rays to construct to a given value
+     * @param numOfRays the wanted number of rays to construct
+     */
+    public void setNumOfRays(int numOfRays) {
+        if(numOfRays==81 || numOfRays==50)
+            this.NUM_OF_RAYS=2;
+        this.NUM_OF_RAYS = numOfRays;
     }
 
     /**
@@ -324,6 +373,7 @@ public class Render {
      *
      * @param light    the light source that illuminates the geometry
      * @param geopoint the intersected point
+     * @param beam List Ray beam
      * @return the level of the transparent influence on the objects
      */
     private double transparency(LightSource light, GeoPoint geopoint, List<Ray> beam) {
@@ -351,6 +401,14 @@ public class Render {
         return sum;
     }
 
+    /**
+     * this function create a beam of rays
+     * @param light the light source
+     * @param l the vector from the light source to the intersected point
+     * @param n the normal to the intersected point
+     * @param geopoint the intersected point
+     * @return beam of shadow rays
+     */
     public List<Ray> constructRayBeamThroughPixel(LightSource light, Vector l, Vector n, GeoPoint geopoint) {
         Vector centralLightDirection = l.scale(-1).normalize();
         Point3D point = geopoint.getPoint();
@@ -390,4 +448,136 @@ public class Render {
         }
         return beam;
     }
+
+
+
+    //code for multyThreading
+    private int _threads = 1;
+    private final int SPARE_THREADS = 2;
+    private boolean _print = false;
+
+    /**
+     * Pixel is an internal helper class whose objects are associated with a Render object that
+     * they are generated in scope of. It is used for multithreading in the Renderer and for follow up
+     * its progress.
+     * There is a main follow up object and several secondary objects - one in each thread.
+     * @author Dan
+     *
+     */
+    private class Pixel {
+        private long _maxRows = 0;
+        private long _maxCols = 0;
+        private long _pixels = 0;
+        public volatile int row = 0;
+        public volatile int col = -1;
+        private long _counter = 0;
+        private int _percents = 0;
+        private long _nextCounter = 0;
+
+        /**
+         * The constructor for initializing the main follow up Pixel object
+         * @param maxRows the amount of pixel rows
+         * @param maxCols the amount of pixel columns
+         */
+        public Pixel(int maxRows, int maxCols) {
+            _maxRows = maxRows;
+            _maxCols = maxCols;
+            _pixels = maxRows * maxCols;
+            _nextCounter = _pixels / 100;
+            if (Render.this._print) System.out.printf("\r %02d%%", _percents);
+        }
+
+        /**
+         *  Default constructor for secondary Pixel objects
+         */
+        public Pixel() {}
+
+        /**
+         * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+         * critical section for all the threads, and main Pixel object data is the shared data of this critical
+         * section.
+         * The function provides next pixel number each call.
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is
+         * finished, any other value - the progress percentage (only when it changes)
+         */
+        private synchronized int nextP(Pixel target) {
+            ++col;
+            ++_counter;
+            if (col < _maxCols) {
+                target.row = this.row;
+                target.col = this.col;
+                if (_print && _counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            ++row;
+            if (row < _maxRows) {
+                col = 0;
+                target.row = this.row;
+                target.col = this.col;
+                if (_print && _counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            return -1;
+        }
+
+
+        /**
+         * Public function for getting next pixel number into secondary Pixel object.
+         * The function prints also progress percentage in the console window.
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return true if the work still in progress, -1 if it's done
+         */
+        public boolean nextPixel(Pixel target) {
+            int percents = nextP(target);
+            if (percents > 0)
+                if (Render.this._print) System.out.printf("\r %02d%%", percents);
+            if (percents >= 0)
+                return true;
+            if (Render.this._print) System.out.printf("\r %02d%%", 100);
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Set multithreading <br>
+     * - if the parameter is 0 - number of coress less 2 is taken
+     *
+     * @param threads number of threads
+     * @return the Render object itself
+     */
+    public Render setMultithreading(int threads) {
+        if (threads < 0)
+            throw new IllegalArgumentException("Multithreading patameter must be 0 or higher");
+        if (threads != 0)
+            _threads = threads;
+        else {
+            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+            if (cores <= 2)
+                _threads = 1;
+            else
+                _threads = cores;
+        }
+        return this;
+    }
+    /**
+     * Set debug printing on
+     *
+     * @return the Render object itself
+     */
+    public Render setDebugPrint() {
+        _print = true;
+        return this;
+    }
 }
+

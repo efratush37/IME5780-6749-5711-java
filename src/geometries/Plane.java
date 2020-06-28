@@ -24,6 +24,9 @@ public class Plane extends Geometry {
      * @param _p3= point
      */
     public Plane(Point3D _p1, Point3D _p2, Point3D _p3) {
+        super(
+                new Box(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                        Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
         Vector v1 = _p1.subtract(_p2);
         Vector v2 = _p1.subtract(_p3);
         Vector normal = v1.crossProduct(v2).normalize();
@@ -37,6 +40,9 @@ public class Plane extends Geometry {
      * @param _normal normal of the object
      */
     public Plane(Point3D _p, Vector _normal) {
+        super(
+                new Box(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                        Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
         this._p = new Point3D(_p);
         this._normal = new Vector(_normal).normalize();
     }
@@ -110,6 +116,14 @@ public class Plane extends Geometry {
         return _normal.normalize();
     }
 
+    /**
+     * this function return the center point of the box
+     * @return the center point of the box
+     */
+    @Override
+    public Point3D getCenterPosition() {
+        return this.get_p();
+    }
 
     /**
      * this function calculate the intersections points
@@ -121,7 +135,8 @@ public class Plane extends Geometry {
     public List<GeoPoint> findIntsersections(Ray ray) {
         //P = P0 + T*V, T >= 0
         // N * Q0 - P = 0
-
+        if(!IntersectedBox(ray))
+            return null;
 
         // vector from p0 of ray to point on the plane
         Vector p0Q;
@@ -139,5 +154,15 @@ public class Plane extends Geometry {
 
         double t = alignZero(_normal.dotProduct(p0Q) / nv);
         return t <= 0 ? null : List.of(new GeoPoint(this,ray.getPoint(t)));
+    }
+
+    /**
+     * this function return rather the box is intersected with the ray or not
+     * @param ray the constructed ray
+     * @return rather the box is intersected with the ray or not
+     */
+    @Override
+    public boolean IntersectedBox(Ray ray) {
+        return this.box.IntersectedBox(ray);
     }
 }

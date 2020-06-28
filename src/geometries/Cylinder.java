@@ -23,7 +23,7 @@ public class Cylinder extends Tube {
      * @param _height height of the cylinder
      */
     public Cylinder(Color color, Material m, double _radius, Ray _axisRay, double _height) {
-        super(color, m, _radius, _axisRay);
+        super( _radius, _axisRay);
         this._height = _height;
     }
 
@@ -62,7 +62,6 @@ public class Cylinder extends Tube {
         this(Color.BLACK, new Material(0, 0, 0), _radius, _axisRay, _height);
     }
 
-
     /**
      * get method for the height field
      * @return the value of the height field
@@ -70,7 +69,6 @@ public class Cylinder extends Tube {
     public double get_height() {
         return _height;
     }
-
 
     /**
      * implement to string method
@@ -116,7 +114,7 @@ public class Cylinder extends Tube {
      * @return list of geo points created by the intersection between the ray and the cylinder
      */
     @Override
-    public List<GeoPoint> findIntsersections(Ray ray) {
-        return super.findIntsersections(ray);
+    public List<GeoPoint> findIntsersections(Ray ray){
+    return super.findIntsersections(ray);
     }
 }

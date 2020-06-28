@@ -86,7 +86,7 @@ public class miniProject1 {
                         0.0000005, 200d)
         );
 
-        ImageWriter imageWriter = new ImageWriter("shadow with transparency Soft shadow", 500, 500, 2000, 2000);
+        ImageWriter imageWriter = new ImageWriter("miniProject1", 500, 500, 2000, 2000);
         Render render = new Render(imageWriter, scene);
         //render.setNumOfRays(50);
         render.renderImage();

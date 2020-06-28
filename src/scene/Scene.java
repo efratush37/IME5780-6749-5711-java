@@ -128,9 +128,7 @@ public class Scene {
      * @param Geometries list of geometries
      */
     public void addGeometries(Intersectable... Geometries) {
-        for (Intersectable i : Geometries) {
-            _geometries.add(i);
-        }
+            _geometries.add(Geometries);
     }
 
     /**
@@ -138,8 +136,10 @@ public class Scene {
      * @param light list of light sources
      */
     public void addLights(LightSource... light) {
-        for (LightSource l : light) {
-            this._lights.add(l);
+        if(light!=null){
+            _lights= new LinkedList<>();
         }
+       for(LightSource l: light)
+            this._lights.add(l);
     }
 }

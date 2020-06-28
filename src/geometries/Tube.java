@@ -19,9 +19,10 @@ public class Tube extends RadialGeometry {
      * @param _radius=  radius of the tube
      */
     public Tube(double _radius, Ray _axisRay) {
-        super(_radius);
+        super(_radius, null);
         this._axisRay = new Ray(_axisRay);
     }
+
 
     /**
      * constructor with the color of the tube
@@ -30,8 +31,7 @@ public class Tube extends RadialGeometry {
      * @param _axisRay ray of the tube
      */
     public Tube(Color color, double _radius, Ray _axisRay) {
-        this(_radius, _axisRay);
-        emission = color;
+        this(color, new Material(0, 0, 0),_radius, _axisRay);
     }
 
     /**
@@ -42,8 +42,9 @@ public class Tube extends RadialGeometry {
      * @param _axisRay ray of the tube
      */
     public Tube(Color color, Material m, double _radius, Ray _axisRay) {
-        super(color, m, _radius);
+        super(color, _radius, null);
         this._axisRay = _axisRay;
+        this.material= m;
     }
 
     /**
@@ -96,6 +97,11 @@ public class Tube extends RadialGeometry {
         return check.normalize();
     }
 
+    @Override
+    public Point3D getCenterPosition() {
+        return this._axisRay.get_p0();
+    }
+
     /**
      * this function calculate the intersections points
      * (refactoring, returns list of geo points instead of regular points)
@@ -146,5 +152,15 @@ public class Tube extends RadialGeometry {
             return List.of(new GeoPoint(this, ray.getPoint(t1)));
         else
             return List.of(new GeoPoint(this, ray.getPoint(t2)));
+    }
+
+    /**
+     * this function return rather the box is intersected with the ray or not
+     * @param ray the constructed ray
+     * @return rather the box is intersected with the ray or not
+     */
+    @Override
+    public boolean IntersectedBox(Ray ray) {
+        return this.box.IntersectedBox(ray);
     }
 }

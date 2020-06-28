@@ -20,7 +20,10 @@ public class Sphere extends RadialGeometry {
      * @param _radius= the radius of the sphere
      */
     public Sphere(double _radius, Point3D _center) {
-        super(_radius);
+        super(_radius,
+                new Box(_center.getC1().get()- _radius, _center.getC1().get()+ _radius,
+                        _center.getC2().get()- _radius, _center.getC2().get()+ _radius,
+                        _center.getC3().get()- _radius, _center.getC3().get()+ _radius));
         this._center = _center;
     }
 
@@ -43,7 +46,10 @@ public class Sphere extends RadialGeometry {
      * @param _center the center point of the sphere
      */
     public Sphere(Color color,Material m, double _radius, Point3D _center) {
-        super(color, m, _radius);
+        super(color, m, _radius,
+                new Box(_center.getC1().get()- _radius, _center.getC1().get()+ _radius,
+                        _center.getC2().get()- _radius, _center.getC2().get()+ _radius,
+                        _center.getC3().get()- _radius, _center.getC3().get()+ _radius));
         this._center = _center;
     }
 
@@ -86,6 +92,15 @@ public class Sphere extends RadialGeometry {
     }
 
     /**
+     * this function return the center point of the box
+     * @return the center point of the box
+     */
+    @Override
+    public Point3D getCenterPosition() {
+        return this.get_center();
+    }
+
+    /**
      * this function calculate the intersections points
      * (refactoring, returns list of geo points instead of regular points)
      * @param ray the ray thrown toward the geometry
@@ -93,6 +108,9 @@ public class Sphere extends RadialGeometry {
      */
     @Override
     public List<GeoPoint> findIntsersections(Ray ray) {
+        if(!IntersectedBox(ray))
+            return null;
+
         Point3D p0 = ray.get_p0();
         Vector v = ray.getDir();
         Vector u;
@@ -118,5 +136,15 @@ public class Sphere extends RadialGeometry {
             return List.of(new GeoPoint(this,ray.getPoint(t1)));
         else
             return List.of(new GeoPoint(this,ray.getPoint(t2)));
+    }
+
+    /**
+     * this function return rather the box is intersected with the ray or not
+     * @param ray the constructed ray
+     * @return rather the box is intersected with the ray or not
+     */
+    @Override
+    public boolean IntersectedBox(Ray ray) {
+    return this.box.IntersectedBox(ray);
     }
 }
