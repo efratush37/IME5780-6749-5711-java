@@ -7,13 +7,11 @@ import geometries.*;
 import primitives.*;
 
 /**
+ * this class represent the model we want to classify
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
- *
+ * boundary volume
  */
 
-/**
- * this class represent the model we want to classify
- */
 public class Point {
     //fields
     private Geometry geometry;//the geometry need to be classify to a larger containing box

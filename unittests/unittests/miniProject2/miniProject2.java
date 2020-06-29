@@ -73,12 +73,12 @@ public class miniProject2 {
                 150,
                 new Point3D(-500, 500, -300));
 
-        scene.addGeometries(p, yellow, white, purple, blue, pink, green);
-        /*Geometries A= new Geometries(yellow, white);
+        //scene.addGeometries(p, yellow, white, purple, blue, pink, green);
+        Geometries A= new Geometries(yellow, white);
         Geometries B= new Geometries(purple, blue);
         Geometries C= new Geometries(p,A, B, pink, green);
 
-        scene.addGeometries(C);*/
+        scene.addGeometries(C);
 
         scene.addLights(
                 new PointLight(
@@ -185,11 +185,6 @@ public class miniProject2 {
         Triangle t=  new Triangle(new Color(java.awt.Color.blue), new Material(0.5, 0.5, 100,1,1),
                 new Point3D(-300, -500, -900), new Point3D(0, 0, 100), new Point3D(300, -500, -900));
         points.add(new Point(t));
-
-
-
-
-
 
         KMeans kmeans = new KMeans();
         kmeans.init(points);

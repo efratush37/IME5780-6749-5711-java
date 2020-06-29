@@ -25,71 +25,29 @@ import static org.junit.Assert.*;
  */
 public class miniProject1 {
     @Test
-    public void softShadowes() {
+    public void trianglesTransparentSoftShadowsSphere() {
         Scene scene = new Scene("Test scene");
-        scene.set_camera(new Camera(new Point3D(0, 0, -2000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
-        scene.set_distance(600);
+        scene.set_camera(new Camera(new Point3D(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, -1, 0)));
+        scene.set_distance(1000);
         scene.set_background(Color.BLACK);
-        scene.set_ambientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.3));
+        scene.set_ambientLight(new AmbientLight(new Color(java.awt.Color.WHITE), 0.15));
 
-        scene.addGeometries(
-                new Plane(
-                        new Material(0.5, 0.8, 120, 0.05,0.1),
-                        new Color(153, 31, 40),
-                        new Point3D(0, 800, 0),
-                        new Vector(0, 1, 0)),
+        scene.addGeometries( //
+                new Triangle(Color.BLACK, new Material(0.5, 0.5, 60), //
+                        new Point3D(-150, 150, 115), new Point3D(150, 150, 135), new Point3D(75, -75, 150)), //
+                new Triangle(Color.BLACK, new Material(0.5, 0.5, 60), //
+                        new Point3D(-150, 150, 115), new Point3D(-70, -70, 140), new Point3D(75, -75, 150)), //
+                new Sphere(new Color(java.awt.Color.BLUE), new Material(0.2, 0.2, 30, 0.6, 0), // )
+                        30, new Point3D(60, -50, 50)));
 
-                new Sphere(
-                        new Color(100, 200, 0),
-                        new Material(0.5, 0.8, 120, 0,1),
-                        1000,
-                        new Point3D(1100, -200, 5990)),
-                new Sphere(
-                        new Color(200, 0, 200),
-                        new Material(0.5, 0.8, 120,0.4,0.8),
-                        400,
-                        new Point3D(-700, -200, 2000)),
-                new Sphere(
-                        new Color(50, 0, 400),
-                        new Material(0.5, 0.8, 120),
-                        100,
-                        new Point3D(0, 300, -300)),
-                new Sphere(
-                        new Color(50, 200, 50),
-                        new Material(0.5, 0.8, 120),
-                        70,
-                        new Point3D(500, 500, -300)),
-                new Sphere(
-                        new Color(200, 200, 200),
-                        new Material(0.5, 0.8, 120),
-                        300,
-                        new Point3D(50, -200, 4000)),
-                new Sphere(
-                        new Color(50, 200, 300),
-                        new Material(0.5, 0.8, 120),
-                        150,
-                        new Point3D(-500, 500, -300))
-        );
+        scene.addLights(new SpotLight(new Color(700, 400, 400), //
+                new Point3D(60, -50, 0), new Vector(0, 0, 1), 1, 4E-5, 2E-7, 3d));
 
-        scene.addLights(
-                new PointLight(
-                        new Color(150, 200, 0),
-                        new Point3D(0, -1300, 4200),
-                        1d,
-                        0.000001,
-                        0.0000005, 200d),
-                new PointLight(
-                        new Color(150, 200, 0),
-                        new Point3D(-1300, -1000, -2400),
-                        1d,
-                        0.000001,
-                        0.0000005, 200d)
-        );
-
-        ImageWriter imageWriter = new ImageWriter("miniProject1", 500, 500, 2000, 2000);
-        Render render = new Render(imageWriter, scene);
-        //render.setNumOfRays(50);
+        ImageWriter imageWriter = new ImageWriter("mini1 soft shadows with transparency", 200, 200, 600, 600);
+        Render render = new Render(imageWriter, scene).setMultithreading(3).setDebugPrint();
+        render.setNumOfRays(200);
         render.renderImage();
         render.writeToImage();
     }
+
 }

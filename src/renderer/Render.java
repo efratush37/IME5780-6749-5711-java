@@ -31,7 +31,7 @@ public class Render {
     //private static final double DELTA = 0.1; //minimal size to add to the shadow rays in order to avoid from intersected with the geometry
     private static final int MAX_CALC_COLOR_LEVEL = 10; //the maximum level can be afford for stopping the recursion
     private static final double MIN_CALC_COLOR_K = 0.001; //the minimum level can be afford for stopping the recursion
-    private int NUM_OF_RAYS = 1;  // number of rays for soft shadow feature
+    private int NUM_OF_RAYS = 1; //number of rays for soft shadow feature
 
 
     /**
@@ -53,8 +53,6 @@ public class Render {
         renderImage(1);
     }
 
-
-
     /**
      * this function create the image pixel after pixel
      * (refactoring- now when we create the image, were going on a list of geo points)
@@ -72,21 +70,7 @@ public class Render {
         int nY = IMwr.getNy();
         Double width = IMwr.getWidth();
         Double height = IMwr.getHeight();
-/*
-        Ray ray;
-        GeoPoint closestpoint;
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                ray = camera.constructRayThroughPixel(nX, nY, j, i, distance, width, height);
-                closestpoint = findCLosestIntersection(ray);
-                if (closestpoint == null) {
-                    IMwr.writePixel(j, i, background);
-                } else {
-                    IMwr.writePixel(j, i, (calcColor(closestpoint, ray)).getColor());
-                }
-            }
-        }
-        */
+
         final Pixel thePixel = new Pixel(nY, nX);
 
         // Generate threads
@@ -113,7 +97,6 @@ public class Render {
         // Wait for all threads to finish
         for (Thread thread : threads) try { thread.join(); } catch (Exception e) {}
         if (_print) System.out.printf("\r100%%\n");
-
     }
 
     /**
@@ -214,8 +197,6 @@ public class Render {
      * @param numOfRays the wanted number of rays to construct
      */
     public void setNumOfRays(int numOfRays) {
-        if(numOfRays==81 || numOfRays==50)
-            this.NUM_OF_RAYS=2;
         this.NUM_OF_RAYS = numOfRays;
     }
 
@@ -299,7 +280,6 @@ public class Render {
      * @return the geo point that it's point value closest to the camera
      */
     private GeoPoint getClosestPoint(List<GeoPoint> points) {
-
         GeoPoint result = null;
         double minD = Double.MAX_VALUE;
 
@@ -449,8 +429,6 @@ public class Render {
         return beam;
     }
 
-
-
     //code for multyThreading
     private int _threads = 1;
     private final int SPARE_THREADS = 2;
@@ -461,7 +439,7 @@ public class Render {
      * they are generated in scope of. It is used for multithreading in the Renderer and for follow up
      * its progress.
      * There is a main follow up object and several secondary objects - one in each thread.
-     * @author Dan
+     * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
      *
      */
     private class Pixel {
@@ -529,7 +507,6 @@ public class Render {
             return -1;
         }
 
-
         /**
          * Public function for getting next pixel number into secondary Pixel object.
          * The function prints also progress percentage in the console window.
@@ -546,8 +523,6 @@ public class Render {
             return false;
         }
     }
-
-
 
     /**
      * Set multithreading <br>

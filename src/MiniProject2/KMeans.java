@@ -9,7 +9,7 @@ import primitives.Point3D;
 /**
  * this class represents the K-means algorithm for classifying
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
- *
+ * boundary volume
  */
 
 public class KMeans {

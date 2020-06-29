@@ -7,9 +7,9 @@ import geometries.*;
 import primitives.*;
 
 /**
- * this class represent a cluster, a
+ * this class represent a cluster, a section in the space that objects will classify to
  * @author Rivka Zizovi 207265711 and Efrat Anconina 322796749
- *
+ * boundary volume
  */
 public class Cluster {
     public List<Point> points;//list of points related to the cluster
